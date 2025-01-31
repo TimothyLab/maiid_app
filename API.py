@@ -47,20 +47,6 @@ def analyze_image():
     return jsonify({"detections": detections})
 
 
-# Route for seeing a data
-@app.route('/data')
-def get_time():
-
-    # Returning an api for showing in  reactjs
-    return {
-        'Name':"geek", 
-        "Age":"22",
-        "Date":"12/02/1998", 
-        "programming":"python"
-        }
-
-
-
 # Point d'entrée pour exécuter l'API
 if __name__ == '__main__':
     app.run(port=5000)  # Lance l'API sur le port 5000
