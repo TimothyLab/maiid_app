@@ -1,65 +1,67 @@
+import React, { useState } from 'react';
 import './App.css';
-import React, { useState } from "react";
 
-//explication de chaque ligne 
-function App() { //déclare la fonction App
-  const [file, setFile] = useState(); //déclare une variable file et une fonction setFile qui permet de modifier la variable file, useState permet de déclarer une variable d'état
-  const [results,setResults] = useState(); //déclare une variable results et une fonction setResults qui permet de modifier la variable results, useState permet de déclarer une variable d'état
-  const [imageUrl, setImageUrl] = useState(); //déclare une variable imageUrl et une fonction setImageUrl qui permet de modifier la variable imageUrl, useState permet de déclarer une variable d'état
+function App() {
 
-  const handleChange = (e) => { //déclare une fonction handleChange qui prend en paramètre e
-      const selectedFile = e.target.files[0]; //affiche dans la console le fichier
-      setFile(selectedFile); //modifie la variable file avec le fichier
-      setImageUrl(URL.createObjectURL(selectedFile)); //modifie l'url de l'image
-  }; 
+  const [imageUrl, setImageUrl] = useState<string>(''); 
+    const [selectedFile, setSelectedFile] = useState<File | null>(null); // Gestion du fichier
 
-  const handleUpload = async () => { //déclare une fonction handleUpload
-    if (!file) { //si file n'est pas défini
-        return; //retourne
-    }
+    // Fonction pour gérer la sélection d'une image
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]; // Vérifie qu'un fichier est sélectionné
+        if (file) {
+            setSelectedFile(file);
+            setImageUrl(URL.createObjectURL(file)); // Affiche la prévisualisation
+        }
+    };
 
-    const formData = new FormData(); //déclare une variable formData qui prend un objet FormData
-    formData.append("file", file); //ajoute un fichier à formData
+    // Fonction pour gérer l'upload
+    const handleUpload = async (event: React.FormEvent) => {
+        event.preventDefault();
 
-    try { //essaie
-        const response = await fetch("/", { //déclare une variable response qui attend la réponse de la fonction fetch
-            method: "POST", //méthode POST
-            body: formData, //corps de la requête
-        });
-
-        if (!response.ok) { //si la réponse n'est pas ok
-            throw new Error("Failed to upload file"); //affiche un message d'erreur
+        if (!selectedFile) {
+            console.error("Aucun fichier sélectionné.");
+            return;
         }
 
-        const data = await response.json(); //déclare une variable data qui attend la réponse de la fonction response.json
-        setResults(data); //modifie la variable results avec data   
-      } catch (error) { //attrape l'erreur
-        console.error(error); //affiche l'erreur dans la console
-      }
-  };
+        const formData = new FormData();
+        formData.append("file", selectedFile);
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Welcome to Mosquito identification app</h1>
-          <div className="image">
-            <input type="file" onChange={handleChange} /> 
-            <img src={imageUrl} className="image" /> 
-          </div>
-        
-          <button onClick={handleUpload}>Analyser l'image</button>  {/* Bouton pour envoyer l'image */}
+        try {
+            const response = await fetch("http://127.0.0.1:5000/", {
+                method: "POST",
+                body: formData,
+            });
 
-         
+            const data = await response.json();
+            console.log("Réponse du serveur :", data);
+        } catch (error) {
+            console.error("Erreur lors de l'upload :", error);
+        }
+    };
+  
 
-        {/* Affichage des résultats */}
-        {results && (
+    return (
+      <div className="App">
+          <header className="App-header"> 
+              <h1> Bienvenu sur le projet MAIID </h1>
+          </header>
           <div>
-            <h2>Résultats de l'analyse :</h2>
-            <pre>{JSON.stringify(results, null, 2)}</pre>  {/* Affiche les résultats au format JSON */}
+              <input type="file" onChange={handleChange}/>
+              {imageUrl && <img src={imageUrl} className='image' />}
+              
           </div>
-        )}
-      </header>
-    </div>
+          
+          <div>
+          <button onClick={handleUpload}>Uploader</button>
+          
+          </div>
+
+
+          
+          <p> Edit <code>src/App.tsx</code>  </p>
+          <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer"> Learn React</a>
+      </div>
   );
 }
 
