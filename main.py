@@ -188,7 +188,9 @@ async def analyse_image(file: UploadFile = File(...)):
 
     detections = []
     for result in results:
+        print(f"1",result)
         for box in result.boxes:
+            print(f"2",box)
             x1, y1, x2, y2 = box.xyxy[0].tolist()
             confidence = box.conf[0].item()
             class_id = box.cls[0].item()
@@ -200,6 +202,7 @@ async def analyse_image(file: UploadFile = File(...)):
                 "bounding_box": [x1, y1, x2, y2]
             })
 
+    print(detections)
     return JSONResponse(content={"detections": detections})
 
 # Fonction pour générer un token JWT
