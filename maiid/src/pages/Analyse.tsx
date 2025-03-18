@@ -84,7 +84,7 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
                     <ul>
                         {detections.map((det, index) => (
                             <li key={index}>
-                                Espèce : {det.species}, Confiance : {det.confidence.toFixed(2)}
+                                Espèce : {det.species}, Confiance : {det.confidence.toFixed(2)}, Bounding_box : {det.bounding_box}
                             </li>
                         ))}
                     </ul>
