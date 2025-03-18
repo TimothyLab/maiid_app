@@ -20,6 +20,11 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
         }
     }, [navigate]);
 
+    const handleLogout = () => {
+        localStorage.removeItem("token"); // Supprime le token
+        navigate("/login"); // Redirige vers la page de connexion
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -67,6 +72,9 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
             <header className="App-header"> 
                 <h1> Bienvenu sur le projet MAIID </h1>
                 {isLogin && <p>Utilisateur connecté</p>}
+                <div className="header-container">
+                <button onClick={handleLogout} className="logout-button">Se Déconnecter</button>
+                </div>
             </header>
 
             <div>
