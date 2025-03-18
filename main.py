@@ -44,12 +44,14 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     email = Column(String, index=True)
+    full_name = Column(String, index=True)
     disabled = Column(Boolean, default=False)
 
 class UserCreate(BaseModel):
     username: str
     password: str
-    #email: str
+    email: str
+    full_name: str
 
 class UserResponse(BaseModel):
     id: int
@@ -65,7 +67,7 @@ class ImageDB(Base):
     url = Column(String)
 
 # Base de données SQLite et session
-DATABASE_URL = "sqlite:///./test.db"
+DATABASE_URL = "sqlite:///./dump-maiid_app.db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -105,9 +107,9 @@ def verify_password(plain_password, hashed_password):
 def get_user(db: Session, username: str):
     return db.query(User).filter(User.username == username).first()
 
-def create_user(db: Session, username: str, password: str):#, email: str):
+def create_user(db: Session, username: str, password: str, email: str, full_name: str):
     hashed_password = hash_password(password)
-    db_user = User(username=username, hashed_password=hashed_password)#, email=email)
+    db_user = User(username=username, hashed_password=hashed_password, email=email, full_name=full_name)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -134,7 +136,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Nom d'utilisateur déjà pris")
 
     # Créer l'utilisateur dans la base de données
-    new_user = create_user(db, user.username, user.password)#, user.email)
+    new_user = create_user(db, user.username, user.password, user.email, user.full_name)
     
     return {"message": "Utilisateur créé avec succès", "user": new_user}
 
