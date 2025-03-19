@@ -83,7 +83,7 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
             </div>
 
             <div>
-                <button onClick={handleUpload}>Uploader</button>
+                <button onClick={handleUpload}>Analyser l'image</button>
             </div>
 
             {detections.length > 0 && (
@@ -92,7 +92,9 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
                     <ul>
                         {detections.map((det, index) => (
                             <li key={index}>
-                                Espèce : {det.species}, Confiance : {det.confidence.toFixed(2)}, Bounding_box : {det.bounding_box}
+                                <strong>Espèce :</strong>{det.species},
+                                <strong>Confiance :</strong>{det.confidence.toFixed(2)}, 
+                                <strong>Bounding_box :</strong>{det.bounding_box}
                             </li>
                         ))}
                     </ul>
