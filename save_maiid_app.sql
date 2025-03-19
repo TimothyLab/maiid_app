@@ -17,33 +17,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `BOUNDING_BOX`
---
-
-DROP TABLE IF EXISTS `BOUNDING_BOX`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BOUNDING_BOX` (
-  `id_bounding_box` int(11) NOT NULL,
-  `x1` float NOT NULL,
-  `y1` float NOT NULL,
-  `x2` float NOT NULL,
-  `y2` float NOT NULL,
-  `class_result` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_bounding_box`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `BOUNDING_BOX`
---
-
-LOCK TABLES `BOUNDING_BOX` WRITE;
-/*!40000 ALTER TABLE `BOUNDING_BOX` DISABLE KEYS */;
-/*!40000 ALTER TABLE `BOUNDING_BOX` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `ANALYSE`
 --
 
@@ -70,6 +43,33 @@ CREATE TABLE `ANALYSE` (
 LOCK TABLES `ANALYSE` WRITE;
 /*!40000 ALTER TABLE `ANALYSE` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ANALYSE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `BOUNDING_BOX`
+--
+
+DROP TABLE IF EXISTS `BOUNDING_BOX`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `BOUNDING_BOX` (
+  `id_bounding_box` int(11) NOT NULL,
+  `x1` float NOT NULL,
+  `y1` float NOT NULL,
+  `x2` float NOT NULL,
+  `y2` float NOT NULL,
+  `class_result` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_bounding_box`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BOUNDING_BOX`
+--
+
+LOCK TABLES `BOUNDING_BOX` WRITE;
+/*!40000 ALTER TABLE `BOUNDING_BOX` DISABLE KEYS */;
+/*!40000 ALTER TABLE `BOUNDING_BOX` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -135,18 +135,18 @@ DROP TABLE IF EXISTS `UTILISATEUR`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `UTILISATEUR` (
-  `id_user` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `prenom` varchar(255) NOT NULL,
   `date_inscription` date NOT NULL,
-  `analyse_id` int(11) NOT NULL,
+  `analyse_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `login` (`login`),
   KEY `analyse_id` (`analyse_id`),
   CONSTRAINT `UTILISATEUR_ibfk_1` FOREIGN KEY (`analyse_id`) REFERENCES `ANALYSE` (`id_analyse`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,12 +155,38 @@ CREATE TABLE `UTILISATEUR` (
 
 LOCK TABLES `UTILISATEUR` WRITE;
 /*!40000 ALTER TABLE `UTILISATEUR` DISABLE KEYS */;
+INSERT INTO `UTILISATEUR` VALUES
+(6,'Tim','$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK','t@t.fr','Timothy','2025-03-19',NULL);
 /*!40000 ALTER TABLE `UTILISATEUR` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'maiid_app'
+-- Table structure for table `bounding_box`
 --
+
+DROP TABLE IF EXISTS `bounding_box`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bounding_box` (
+  `id_bounding_box` int(11) NOT NULL AUTO_INCREMENT,
+  `x1` int(11) NOT NULL,
+  `y1` int(11) NOT NULL,
+  `x2` int(11) NOT NULL,
+  `y2` int(11) NOT NULL,
+  `class_result` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_bounding_box`),
+  KEY `ix_bounding_box_id_bounding_box` (`id_bounding_box`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bounding_box`
+--
+
+LOCK TABLES `bounding_box` WRITE;
+/*!40000 ALTER TABLE `bounding_box` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bounding_box` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -171,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-09 22:23:51
+-- Dump completed on 2025-03-19  9:49:53
