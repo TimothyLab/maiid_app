@@ -24,15 +24,15 @@ DROP TABLE IF EXISTS `ANALYSE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ANALYSE` (
-  `id_analyse` int(11) NOT NULL,
+  `id_analyse` int(11) NOT NULL AUTO_INCREMENT,
   `date_analyse` datetime NOT NULL,
   `algo_config` text DEFAULT NULL,
   `user_feedback` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `bounding_box_id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id_analyse`),
-  KEY `bounding_box_id` (`bounding_box_id`),
-  CONSTRAINT `ANALYSE_ibfk_1` FOREIGN KEY (`bounding_box_id`) REFERENCES `BOUNDING_BOX` (`id_bounding_box`) ON DELETE CASCADE
+  CONSTRAINT `ANALYSE_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,24 +53,18 @@ DROP TABLE IF EXISTS `BOUNDING_BOX`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `BOUNDING_BOX` (
-  `id_bounding_box` int(11) NOT NULL,
+  `id_bounding_box` int(11) NOT NULL AUTO_INCREMENT,
   `x1` float NOT NULL,
   `y1` float NOT NULL,
   `x2` float NOT NULL,
   `y2` float NOT NULL,
   `class_result` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_bounding_box`)
+  `id_analyse` int(11) NOT NULL,
+  PRIMARY KEY (`id_bounding_box`),
+  CONSTRAINT `BOUNDING_BOX_ibfk_1` FOREIGN KEY (`id_analyse`) REFERENCES `ANALYSE` (`id_analyse`) ON DELETE CASCADE
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `BOUNDING_BOX`
---
-
-LOCK TABLES `BOUNDING_BOX` WRITE;
-/*!40000 ALTER TABLE `BOUNDING_BOX` DISABLE KEYS */;
-/*!40000 ALTER TABLE `BOUNDING_BOX` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `GROUPE`
@@ -80,12 +74,11 @@ DROP TABLE IF EXISTS `GROUPE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `GROUPE` (
-  `id_groupe` int(11) NOT NULL,
+  `id_groupe` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `nom_groupe` varchar(255) NOT NULL,
   PRIMARY KEY (`id_groupe`),
   UNIQUE KEY `nom_groupe` (`nom_groupe`),
-  KEY `user_id` (`user_id`),
   CONSTRAINT `GROUPE_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -107,13 +100,12 @@ DROP TABLE IF EXISTS `IMAGE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `IMAGE` (
-  `id_image` int(11) NOT NULL,
+  `id_image` int(11) NOT NULL AUTO_INCREMENT,
   `md5_hash` char(32) NOT NULL,
   `image_path` text NOT NULL,
   `id_utilisateur` int(11) NOT NULL,
   PRIMARY KEY (`id_image`),
   UNIQUE KEY `md5_hash` (`md5_hash`),
-  KEY `id_utilisateur` (`id_utilisateur`),
   CONSTRAINT `IMAGE_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -141,12 +133,11 @@ CREATE TABLE `UTILISATEUR` (
   `nom` varchar(255) NOT NULL,
   `prenom` varchar(255) NOT NULL,
   `date_inscription` date NOT NULL,
-  `analyse_id` int(11) DEFAULT NULL,
+  `id_groupe` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `login` (`login`),
-  KEY `analyse_id` (`analyse_id`),
-  CONSTRAINT `UTILISATEUR_ibfk_1` FOREIGN KEY (`analyse_id`) REFERENCES `ANALYSE` (`id_analyse`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `UTILISATEUR_ibfk_1` FOREIGN KEY (`id_groupe`) REFERENCES `GROUPE` (`id_groupe`) ON DELETE CASCADE
+  ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,35 +150,6 @@ INSERT INTO `UTILISATEUR` VALUES
 (6,'Tim','$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK','t@t.fr','Timothy','2025-03-19',NULL);
 /*!40000 ALTER TABLE `UTILISATEUR` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `bounding_box`
---
-
-DROP TABLE IF EXISTS `bounding_box`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bounding_box` (
-  `id_bounding_box` int(11) NOT NULL AUTO_INCREMENT,
-  `x1` int(11) NOT NULL,
-  `y1` int(11) NOT NULL,
-  `x2` int(11) NOT NULL,
-  `y2` int(11) NOT NULL,
-  `class_result` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_bounding_box`),
-  KEY `ix_bounding_box_id_bounding_box` (`id_bounding_box`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bounding_box`
---
-
-LOCK TABLES `bounding_box` WRITE;
-/*!40000 ALTER TABLE `bounding_box` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bounding_box` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
