@@ -62,7 +62,7 @@ class User(Base):
     nom = Column(String, nullable=False)
     prenom = Column(String, nullable=False)
     date_inscription = Column(String, nullable=False)
-    analyse_id = Column(Integer, ForeignKey("ANALYSE.id_analyse"), nullable=True)
+    id_groupe = Column(Integer, ForeignKey("ANALYSE.id_analyse"), nullable=True)
 
 class Analyse(Base):
     __tablename__ = "ANALYSE"
@@ -74,6 +74,7 @@ class Analyse(Base):
     user_feedback = Column(String(255))
     created_at = Column(String(255), nullable=False)
     bounding_box_id = Column(Integer, ForeignKey("bounding_box.id_bounding_box"))
+    id_user = Column(Integer, ForeignKey("UTILISATEUR.id"), nullable=False)
 
 class BoundingBox(Base):
     __tablename__ = "bounding_box"
@@ -85,6 +86,7 @@ class BoundingBox(Base):
     x2 = Column(Integer, nullable=False)
     y2 = Column(Integer, nullable=False)
     class_result = Column(String(255), nullable=False)
+    id_analyse = Column(Integer, ForeignKey("ANALYSE.id_analyse"), nullable=False)
 
 class Groupe(Base):
     __tablename__ = "GROUPE"
