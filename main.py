@@ -8,9 +8,9 @@ import cv2
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import mariadb
 
-
-from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, Mapped, mapped_column, sessionmaker
 
@@ -38,15 +38,6 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str
 
-class User(Base):
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    email = Column(String, index=True)
-    full_name = Column(String, index=True)
-    disabled = Column(Boolean, default=False)
-
 class UserCreate(BaseModel):
     username: str
     password: str
@@ -59,20 +50,67 @@ class UserResponse(BaseModel):
     email: str
     disabled: bool
 
-class ImageDB(Base):
-    __tablename__ = "image"
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String)
-    description = Column(String)
-    url = Column(String)
+# Définition des tables de la base de données
 
-# Base de données SQLite et session
-DATABASE_URL = "sqlite:///./dump-maiid_app.db"
+class User(Base):
+    __tablename__ = "UTILISATEUR"
+    __table_args__ = {'extend_existing': True}
+
+    id_user = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    login = Column(String, unique=True, nullable=False)
+    password = Column(String, nullable=False)
+    nom = Column(String, nullable=False)
+    prenom = Column(String, nullable=False)
+    date_inscription = Column(String, nullable=False)
+    analyse_id = Column(Integer, ForeignKey("ANALYSE.id_analyse"), nullable=True)
+
+class Analyse(Base):
+    __tablename__ = "ANALYSE"
+    __table_args__ = {'extend_existing': True}
+
+    id_analyse = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    date_analyse = Column(String(255), nullable=False)
+    algo_config = Column(String(255))
+    user_feedback = Column(String(255))
+    created_at = Column(String(255), nullable=False)
+    bounding_box_id = Column(Integer, ForeignKey("bounding_box.id_bounding_box"))
+
+class BoundingBox(Base):
+    __tablename__ = "bounding_box"
+    __table_args__ = {'extend_existing': True}
+
+    id_bounding_box = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    x1 = Column(Integer, nullable=False)
+    y1 = Column(Integer, nullable=False)
+    x2 = Column(Integer, nullable=False)
+    y2 = Column(Integer, nullable=False)
+    class_result = Column(String(255), nullable=False)
+
+class Groupe(Base):
+    __tablename__ = "GROUPE"
+    __table_args__ = {'extend_existing': True}
+
+    id_groupe = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("UTILISATEUR.id"), nullable=False)
+    nom_groupe = Column(String, unique=True, nullable=False)
+
+class Image(Base):
+    __tablename__ = "IMAGE"
+    __table_args__ = {'extend_existing': True}
+
+    id_image = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    md5_hash = Column(String, unique=True, nullable=False)
+    image_path = Column(String, nullable=False)
+    id_utilisateur = Column(Integer, ForeignKey("UTILISATEUR.id"))
+
+# Base de données MariaDB et session
+DATABASE_URL = "mariadb+mariadbconnector://admin:admin@localhost:3306/maiid_app"
+#sqlite:///./dump-maiid_app.db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Création des tables si elles n'existent pas
-Base.metadata.create_all(bind=engine)
+#Base.metadata.create_all(bind=engine)
 
 # Initialisation de FastAPI
 app = FastAPI()
@@ -105,11 +143,11 @@ def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_user(db: Session, username: str):
-    return db.query(User).filter(User.username == username).first()
+    return db.query(User).filter(User.login == username).first()
 
-def create_user(db: Session, username: str, password: str, email: str, full_name: str):
+def create_user(db: Session,login: str, password: str,nom: str, prenom: str, ):
     hashed_password = hash_password(password)
-    db_user = User(username=username, hashed_password=hashed_password, email=email, full_name=full_name)
+    db_user = User(login=login, password=hashed_password,nom=nom, prenom=prenom, date_inscription=datetime.now())
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -131,7 +169,7 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 @app.post("/register/")
 def register(user: UserCreate, db: Session = Depends(get_db)):
     # Vérification si l'utilisateur existe déjà
-    db_user = db.query(User).filter(User.username == user.username).first()
+    db_user = db.query(User).filter(User.nom == user.username).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Nom d'utilisateur déjà pris")
 
@@ -143,11 +181,11 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
 @app.post("/login/")
 def login(user: UserCreate = Body(...), db: Session = Depends(get_db)):
     db_user = get_user(db, user.username)
-    if not db_user or not verify_password(user.password, db_user.hashed_password):
+    if not db_user or not verify_password(user.password, db_user.password):
         raise HTTPException(status_code=401, detail="Identifiants incorrects")
     
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(data={"sub": db_user.username}, expires_delta=access_token_expires)
+    access_token = create_access_token(data={"sub": db_user.nom}, expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
 
 
@@ -164,10 +202,10 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        nom: str = payload.get("sub")
+        if nom is None:
             raise credentials_exception
-        user = get_user(db, username=username)
+        user = get_user(db, nom=nom)
     except JWTError:
         raise credentials_exception
     
@@ -211,7 +249,7 @@ async def analyse_image(file: UploadFile = File(...)):
 @app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     db = SessionLocal()
-    db_user = get_user(db, form_data.username)
+    db_user = get_user(db, form_data.nom)
     if not db_user or not verify_password(form_data.password, db_user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
                             detail="Incorrect username or password",
@@ -219,7 +257,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-         data={"sub": db_user.username}, expires_delta=access_token_expires)
+         data={"sub": db_user.nom}, expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
 
 
