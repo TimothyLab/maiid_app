@@ -107,7 +107,7 @@ class Image(Base):
 
 # Base de données MariaDB et session
 DATABASE_URL = "mariadb+mariadbconnector://admin:admin@localhost:3306/maiid_app"
-#sqlite:///./dump-maiid_app.db"
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
