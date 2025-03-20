@@ -88,13 +88,17 @@ button:disabled {
 
 .image-container {
   position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .image {
   max-width: 100%;
   height: auto;
   display: block;
+  object-fit: contain;
 }
 
 @media (prefers-reduced-motion: no-preference) {
