@@ -15,14 +15,16 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
     // Vérifier l'authentification
     useEffect(() => {
         const token = localStorage.getItem("token");
+        console.log("Token envoyé:", token);
         if (!token) {
-            navigate("/login"); // Redirige vers la page de connexion si non connecté
+            console.log("Token:", localStorage.getItem("token"));
+            navigate("/auth/login"); // Redirige vers la page de connexion si non connecté
         }
     }, [navigate]);
 
     const handleLogout = () => {
         localStorage.removeItem("token"); // Supprime le token
-        navigate("/login"); // Redirige vers la page de connexion
+        navigate("/auth/login"); // Redirige vers la page de connexion
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,16 +43,21 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
             return;
         }
 
+        const token = localStorage.getItem("token");
+        console.log("Token envoyé:", token); // <-- Log le token
+
+
         const formData = new FormData();
         formData.append("file", selectedFile);
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/analyse", {
+            const response = await fetch("http://127.0.0.1:8000/analyse/analyse", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`, // Authentification via le token
                 },
                 body: formData,
+                
             });
 
             if (!response.ok) {
@@ -70,7 +77,7 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
     return (
         <div className="App">
             <header className="App-header"> 
-                <h1> Bienvenu sur le projet MAIID </h1>
+                <h1> Bienvenue sur le projet MAIID </h1>
                 {isLogin && <p>Utilisateur connecté</p>}
                 <div className="header-container">
                 <button onClick={handleLogout} className="logout-button">Se Déconnecter</button>
@@ -105,3 +112,23 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
 };
 
 export default Analyse;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

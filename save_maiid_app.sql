@@ -29,7 +29,6 @@ CREATE TABLE `ANALYSE` (
   `algo_config` text DEFAULT NULL,
   `user_feedback` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `bounding_box_id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id_analyse`),
   CONSTRAINT `ANALYSE_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE
@@ -75,12 +74,10 @@ DROP TABLE IF EXISTS `GROUPE`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `GROUPE` (
   `id_groupe` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
   `nom_groupe` varchar(255) NOT NULL,
   PRIMARY KEY (`id_groupe`),
-  UNIQUE KEY `nom_groupe` (`nom_groupe`),
-  CONSTRAINT `GROUPE_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `nom_groupe` (`nom_groupe`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,10 +100,10 @@ CREATE TABLE `IMAGE` (
   `id_image` int(11) NOT NULL AUTO_INCREMENT,
   `md5_hash` char(32) NOT NULL,
   `image_path` text NOT NULL,
-  `id_utilisateur` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id_image`),
   UNIQUE KEY `md5_hash` (`md5_hash`),
-  CONSTRAINT `IMAGE_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE
+  CONSTRAINT `IMAGE_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -147,9 +144,21 @@ CREATE TABLE `UTILISATEUR` (
 LOCK TABLES `UTILISATEUR` WRITE;
 /*!40000 ALTER TABLE `UTILISATEUR` DISABLE KEYS */;
 INSERT INTO `UTILISATEUR` VALUES
-(6,'Tim','$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK','t@t.fr','Timothy','2025-03-19',NULL);
+(6,'Tim','$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK','t@t.fr','Timothy','2025-03-19',1);
 /*!40000 ALTER TABLE `UTILISATEUR` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping data for table `GROUPE`
+--
+
+LOCK TABLES `GROUPE` WRITE;
+INSERT INTO `GROUPE` VALUES
+(1, 'Admin'),
+(2, 'Utilisateur'),
+(3, 'Visiteur');
+UNLOCK TABLES;
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
