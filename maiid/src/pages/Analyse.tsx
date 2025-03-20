@@ -6,6 +6,9 @@ interface AnalyseProps {
     isLogin: boolean;
 }
 
+const MAX_WIDTH = 800;
+const MAX_HEIGHT = 600;
+
 const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
     const navigate = useNavigate();
     const [imageUrl, setImageUrl] = useState<string>(''); 
@@ -30,8 +33,50 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            setSelectedFile(file);
-            setImageUrl(URL.createObjectURL(file));
+            const img = new Image();
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                img.src = e.target?.result as string;
+                img.onload = () => {
+                    
+                    //canvas pour redimensionner l'image
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                if (ctx) {
+                    // nouvelle largeur et hauteur de l'image
+                    let newWidth = img.width;
+                    let newHeight = img.height;
+
+                    const ratio = img.width / img.height;
+
+                    if (img.width > MAX_WIDTH)  {
+                        newWidth = MAX_WIDTH;
+                        newHeight = newWidth / ratio;
+                    }
+
+                    if (newHeight > MAX_HEIGHT) {
+                        newHeight = MAX_HEIGHT;
+                        newWidth = newHeight * ratio;
+                    }
+
+                    // Redimensionnez l'image sur le canvas
+                    canvas.width = newWidth;
+                    canvas.height = newHeight;
+                    ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+                    const resizedImageUrl = canvas.toDataURL();
+                    setImageUrl(resizedImageUrl);
+                }    
+
+            };
+        };
+
+        reader.readAsDataURL(file);
+
+        setSelectedFile(file);
+        setImageUrl(URL.createObjectURL(file));
         }
     };
 
@@ -86,7 +131,10 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
 
             <div>
                 <input type="file" onChange={handleChange} />
-                {imageUrl && <img src={imageUrl} className="image" alt="Preview" />}
+                {imageUrl && ( 
+                    <div className='image-container'>                             
+                        <img src={imageUrl} className="image" alt="Preview" />
+                    </div> )}
             </div>
 
             <div>
