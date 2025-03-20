@@ -22,7 +22,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
         setError('');
         setLoading(true);
 
-        const url = isLogin ? "/login/" : "/register/";
+        const url = isLogin ? "/auth/login/" : "/auth/register/";
         const payload = { username, password, email, full_name};
 
         try {
