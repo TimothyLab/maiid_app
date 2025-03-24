@@ -16,6 +16,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+CREATE DATABASE IF NOT EXISTS `maiid_app` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `maiid_app`;
 --
 -- Table structure for table `ANALYSE`
 --
@@ -30,8 +32,10 @@ CREATE TABLE `ANALYSE` (
   `user_feedback` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `id_user` int(11) NOT NULL,
+  `id_image` int(11) NOT NULL,
   PRIMARY KEY (`id_analyse`),
-  CONSTRAINT `ANALYSE_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE
+  CONSTRAINT `ANALYSE_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE,
+  CONSTRAINT `ANALYSE_ibfk_2` FOREIGN KEY (`id_image`) REFERENCES `IMAGE` (`id_image`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -58,10 +62,9 @@ CREATE TABLE `BOUNDING_BOX` (
   `x2` float NOT NULL,
   `y2` float NOT NULL,
   `class_result` varchar(255) NOT NULL,
-  `id_analyse` int(11) NOT NULL,
+  `id_image` int(11) NOT NULL,
   PRIMARY KEY (`id_bounding_box`),
-  CONSTRAINT `BOUNDING_BOX_ibfk_1` FOREIGN KEY (`id_analyse`) REFERENCES `ANALYSE` (`id_analyse`) ON DELETE CASCADE
-  
+  CONSTRAINT `BOUNDING_BOX_ibfk_2` FOREIGN KEY (`id_image`) REFERENCES `IMAGE` (`id_image`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -100,11 +103,9 @@ CREATE TABLE `IMAGE` (
   `id_image` int(11) NOT NULL AUTO_INCREMENT,
   `md5_hash` char(32) NOT NULL,
   `image_path` text NOT NULL,
-  `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id_image`),
-  UNIQUE KEY `md5_hash` (`md5_hash`),
-  CONSTRAINT `IMAGE_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `md5_hash` (`md5_hash`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,8 +130,9 @@ CREATE TABLE `UTILISATEUR` (
   `password` varchar(255) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `prenom` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `date_inscription` date NOT NULL,
-  `id_groupe` int(11) DEFAULT NULL,
+  `id_groupe` int(11) NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `login` (`login`),
   CONSTRAINT `UTILISATEUR_ibfk_1` FOREIGN KEY (`id_groupe`) REFERENCES `GROUPE` (`id_groupe`) ON DELETE CASCADE
@@ -144,7 +146,7 @@ CREATE TABLE `UTILISATEUR` (
 LOCK TABLES `UTILISATEUR` WRITE;
 /*!40000 ALTER TABLE `UTILISATEUR` DISABLE KEYS */;
 INSERT INTO `UTILISATEUR` VALUES
-(6,'Tim','$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK','t@t.fr','Timothy','2025-03-19',1);
+(6,'Tim','$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK','Labidi','Timothy','t@t.fr','2025-03-19',1);
 /*!40000 ALTER TABLE `UTILISATEUR` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -45,23 +45,6 @@ async def analyse_image(file: UploadFile = File(...),current_user: User = Depend
                 "confidence": confidence,
                 "bounding_box": [x1, y1, x2, y2]
             })
-        
-    # Enregistrer l'analyse dans la base de données
-    analyse = create_analyse(db, id_user=current_user.id_user)
-
-    # Enregistrer chaque bounding box dans la base de données
-    for detection in detections:
-        create_bounding_box(
-            db,
-            id_analyse=analyse.id_analyse,
-            x1=detection["bounding_box"][0],
-            y1=detection["bounding_box"][1],
-            x2=detection["bounding_box"][2],
-            y2=detection["bounding_box"][3],
-            class_result=detection["species"]
-        )
-    #print(analyse)
-    #print(detections)
 
     # Enregistrement de l'image 
 
@@ -77,8 +60,30 @@ async def analyse_image(file: UploadFile = File(...),current_user: User = Depend
         # Écrire l'image sur le disque
         with open(image_path, "wb") as f:
             f.write(image_data)
-    
+
     #maj bdd
-    create_image(db, image_path=image_path, md5_hash=md5_hash,id_user=current_user.id_user)
+    image = create_image(db, image_path=image_path, md5_hash=md5_hash)
+  
+    # Enregistrer l'analyse dans la base de données
+    analyse = create_analyse(db, id_user=current_user.id_user, id_image=image.id_image)
+
+    
+    # Enregistrer chaque bounding box dans la base de données
+    for detection in detections:
+        create_bounding_box(
+            db,
+            x1=detection["bounding_box"][0],
+            y1=detection["bounding_box"][1],
+            x2=detection["bounding_box"][2],
+            y2=detection["bounding_box"][3],
+            class_result=detection["species"],
+            id_image=image.id_image
+        )
+    #print(analyse)
+    #print(detections)
+
+    
+    
+    
 
     return JSONResponse(content={"detections": detections})

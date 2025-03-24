@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
+import '../components/AdminUserList'
 
 interface AnalyseProps {
     isLogin: boolean;
@@ -27,7 +28,7 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
 
     const handleLogout = () => {
         localStorage.removeItem("token"); // Supprime le token
-        navigate("/auth/login"); // Redirige vers la page de connexion
+        navigate("/login"); // Redirige vers la page de connexion
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,6 +120,11 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
         }
     };
 
+    const handleNavigate = (path: string) => () => {
+        console.log("Navigation vers", path); 
+        navigate(path);
+    };
+
     return (
         <div className="App">
             <header className="App-header"> 
@@ -139,6 +145,7 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
 
             <div>
                 <button onClick={handleUpload}>Analyser l'image</button>
+                <button onClick={handleNavigate("/admin/users")}>Liste des utilisateurs</button>
             </div>
 
             {detections.length > 0 && (

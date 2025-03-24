@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from datetime import timedelta
 from .service import * 
 from database.models import User
-from auth.models import UserCreate
+from auth.models import UserCreate, UserResponse
 
 router = APIRouter(
     prefix="/auth",
@@ -21,7 +21,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Nom d'utilisateur déjà pris")
 
     # Créer l'utilisateur dans la base de données
-    new_user = create_user(db, user.username, user.password, user.email, user.full_name)
+    new_user = create_user(db, user.username, user.password, user.nom, user.prenom, user.email)
     
     return {"message": "Utilisateur créé avec succès", "user": new_user}
 
@@ -34,3 +34,25 @@ def login(user: UserCreate = Body(...), db: Session = Depends(get_db)):
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": db_user.login}, expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/admin/users", response_model=list[UserResponse])
+def get_users(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if current_user.role != "Admin":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Accès refusé")
+    
+    #print(f"L'utilisateur appartient au groupe : {current_user.groupe.nom_groupe}")
+    
+    return db.query(User).all()
+
+@router.get("/users/me", response_model=UserResponse)  # Réponse formatée avec le modèle User
+async def read_users_me(current_user: UserResponse = Depends(get_current_user)):
+    #return UserResponse.from_orm(current_user)
+    return UserResponse(
+        id_user=1,
+        login="Tim",
+        nom="t@t.fr",
+        prenom="Timothy",
+        date_inscription="2025-03-19",
+        role="Admin"
+    ) # A MODIFIER ! Pour récupérer les données de l'utilisateur connecté moins de faire un seul compte admin et de le renvoyer en dur
