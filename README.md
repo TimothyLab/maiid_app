@@ -9,7 +9,7 @@ npm i web-vitals --save-dev
 
 To run Application web :
 
-0) You have to connect the db : 
+0) You have to connect the db :
   -Create an admin acount
   -To enter in mariadb : `mysql -u admin -p`
   -To link at db use : `CREATE DATABASE maiid_app;`
