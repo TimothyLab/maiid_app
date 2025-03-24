@@ -8,8 +8,9 @@ interface AuthPageProps {
 const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [nom, setNom] = useState('');
+    const [prenom, setPrenom] = useState('');
     const [email, setEmail] = useState('');
-    const [full_name, setFull_name] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
         setLoading(true);
 
         const url = isLogin ? "/auth/login/" : "/auth/register/";
-        const payload = { username, password, email, full_name};
+        const payload = { username, password,nom,prenom, email};
 
         try {
             const response = await fetch(`http://127.0.0.1:8000${url}`, {
@@ -73,16 +74,22 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
             {!isLogin && ( //si islogin est faux: si on s'inscrit
                 <>
                     <input 
-                        type="email" 
-                        placeholder="Email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
+                        type="Nom" 
+                        placeholder="Nom" 
+                        value={nom} 
+                        onChange={(e) => setNom(e.target.value)} 
                     />
                     <input 
-                        type="text" 
-                        placeholder="Nom complet" 
-                        value={full_name} 
-                        onChange={(e) => setFull_name(e.target.value)} 
+                        type="prenom" 
+                        placeholder="prenom" 
+                        value={prenom} 
+                        onChange={(e) => setPrenom(e.target.value)} 
+                    />
+                    <input 
+                        type="mail" 
+                        placeholder="email" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
                     />
                 </>
             )}

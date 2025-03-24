@@ -15,8 +15,9 @@ class User(Base):
     password = Column(String, nullable=False)
     nom = Column(String, nullable=False)
     prenom = Column(String, nullable=False)
-    date_inscription = Column(String, nullable=False)
-    id_groupe = Column(Integer, ForeignKey("ANALYSE.id_analyse"), nullable=True)
+    email = Column(String, nullable=False)
+    date_inscription = Column(Date, nullable=False)
+    id_groupe = Column(Integer, ForeignKey("GROUPE.id_groupe"), nullable=True)
 
 class Analyse(Base):
     __tablename__ = "ANALYSE"
@@ -28,6 +29,7 @@ class Analyse(Base):
     user_feedback = Column(String(255))
     created_at = Column(String(255), nullable=False)
     id_user = Column(Integer, ForeignKey("UTILISATEUR.id_user"), nullable=False)
+    id_image = Column(Integer, ForeignKey("IMAGE.id_image"), nullable=False)
 
 class BoundingBox(Base):
     __tablename__ = "BOUNDING_BOX"
@@ -39,14 +41,14 @@ class BoundingBox(Base):
     x2 = Column(Integer, nullable=False)
     y2 = Column(Integer, nullable=False)
     class_result = Column(String(255), nullable=False)
-    id_analyse = Column(Integer, ForeignKey("ANALYSE.id_analyse"), nullable=False)
+    #id_analyse = Column(Integer, ForeignKey("ANALYSE.id_analyse"), nullable=False)
+    id_image = Column(Integer, ForeignKey("IMAGE.id_image"), nullable=False)
 
 class Groupe(Base):
     __tablename__ = "GROUPE"
     __table_args__ = {'extend_existing': True}
 
     id_groupe = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey("UTILISATEUR.id"), nullable=False)
     nom_groupe = Column(String, unique=True, nullable=False)
 
 class Image(Base):
@@ -56,4 +58,3 @@ class Image(Base):
     id_image = Column(Integer, primary_key=True, index=True, autoincrement=True)
     md5_hash = Column(String, unique=True, nullable=False)
     image_path = Column(String, nullable=False)
-    id_user = Column(Integer, ForeignKey("UTILISATEUR.id_user"))

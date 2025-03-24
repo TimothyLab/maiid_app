@@ -7,7 +7,7 @@ const LoginPage: React.FC = () => {
 
     // Fonction pour rediriger vers la page d'inscription
     const goToRegister = () => {
-        navigate('/auth/register/');
+        navigate('/register/');
     };
 
     return (
