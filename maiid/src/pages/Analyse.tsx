@@ -15,6 +15,8 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
     const [imageUrl, setImageUrl] = useState<string>(''); 
     const [selectedFile, setSelectedFile] = useState<File | null>(null); 
     const [detections, setDetections] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false); // Ajout de l'état pour le chargement
+
 
     // Vérifier l'authentification
     useEffect(() => {
@@ -92,12 +94,12 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
         const token = localStorage.getItem("token");
         console.log("Token envoyé:", token); // <-- Log le token
 
-
+        setIsLoading(true); // Début du chargement
         const formData = new FormData();
         formData.append("file", selectedFile);
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/analyse/analyse", {
+            const response = await fetch("http://192.168.1.144:8000/analyse/analyse", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`, // Authentification via le token
@@ -109,14 +111,17 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error("Erreur du serveur :", errorData.detail || errorData);
+                setIsLoading(false); // Fin du chargement
                 return;
             }
 
             const data = await response.json();
-            console.log("Réponse du serveur :", data);
+            //console.log("Réponse du serveur :", data);
             setDetections(data.detections || []);
         } catch (error) {
             console.error("Erreur lors de l'upload :", error);
+        } finally {
+            setIsLoading(false); // Fin du chargement
         }
     };
 
@@ -144,7 +149,9 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
             </div>
 
             <div>
-                <button onClick={handleUpload}>Analyser l'image</button>
+                <button onClick={handleUpload}
+                className={`button-primary' ${isLoading ? 'button-loading' : ''}`}
+                disabled={isLoading}>{isLoading ? 'Chargement...' : 'Analyser l\'image'}</button>
                 <button onClick={handleNavigate("/admin/users")}>Liste des utilisateurs</button>
             </div>
 

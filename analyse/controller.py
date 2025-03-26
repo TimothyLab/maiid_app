@@ -82,8 +82,4 @@ async def analyse_image(file: UploadFile = File(...),current_user: User = Depend
     #print(analyse)
     #print(detections)
 
-    
-    
-    
-
     return JSONResponse(content={"detections": detections})

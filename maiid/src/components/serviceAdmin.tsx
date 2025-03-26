@@ -12,23 +12,11 @@ export interface User {
 }
 
 
-export const getUsersS = async (token: string): Promise<User[]> => {
-    try {
-        const response = await axios.get<User[]>('http://127.0.0.1:8000/auth/admin/users', {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);  // Pour afficher les erreurs dans la console
-        throw new Error('Erreur lors de la récupération des utilisateurs.');
-    }
-};
-
 export const getUsers = async (token: string) => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/auth/admin/users', {
+      const response = await axios.get('http://192.168.1.144:8000/auth/admin/users', {
         headers: {
-          'Authorization': `Bearer ${token}`,  // Utilisation du token
+          'Authorization': `Bearer ${token}`, 
         }
       });
       return response.data;
@@ -37,3 +25,25 @@ export const getUsers = async (token: string) => {
       throw error;
     }
   };
+
+  export const updateUser = async (id: number, updatedData: Partial<User>, token: string): Promise<void> => {
+    try {
+        const response = await fetch(`http://192.168.1.144:8000/auth/users/${id}`, {
+            method: 'PUT',  
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(updatedData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Erreur lors de la mise à jour de l'utilisateur.");
+        }
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour de l\'utilisateur :', error);
+        throw error;
+    }
+};
+

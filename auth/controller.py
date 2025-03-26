@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from datetime import timedelta
 from .service import * 
 from database.models import User
-from auth.models import UserCreate, UserResponse
+from auth.models import UserCreate, UserResponse, UserUpdate
 
 router = APIRouter(
     prefix="/auth",
@@ -43,7 +43,32 @@ def get_users(current_user: User = Depends(get_current_user), db: Session = Depe
     
     #print(f"L'utilisateur appartient au groupe : {current_user.groupe.nom_groupe}")
     
-    return db.query(User).all()
+    users = db.query(User).all()
+    return [UserResponse.from_orm(user) for user in users]
+
+@router.put("/users/{id}", response_model=UserResponse)
+def update_user(id: int, user_data: UserUpdate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    print(f"resultat de la route /user/{id}",user_data.dict(exclude_unset=True))
+    if current_user.role != "Admin":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Accès refusé")
+
+    user = db.query(User).filter(User.id_user == id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Utilisateur non trouvé")
+
+    for key, value in user_data.dict(exclude_unset=True).items():
+        if key == "role":
+            key = "id_groupe"
+        if value == "Admin":
+            value = 1
+        elif value == "Visiteur":    
+            value = 2
+        setattr(user, key, value)  # Mise à jour des champs fournis uniquement
+
+    db.commit()
+    db.refresh(user)
+    
+    return user
 
 @router.get("/users/me", response_model=UserResponse)  # Réponse formatée avec le modèle User
 async def read_users_me(current_user: UserResponse = Depends(get_current_user)):
