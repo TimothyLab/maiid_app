@@ -27,7 +27,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
         const payload = { username, password,nom,prenom, email};
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000${url}`, {
+            const response = await fetch(`http://192.168.1.144:8000${url}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
                 </>
             )}
                   
-            <button onClick={handleAuth} disabled={loading}>
+            <button onClick={handleAuth} disabled={loading} className='button-primary'>
                 {loading ? "Chargement..." : isLogin ? "Se connecter" : "S'inscrire"}
             </button>
             {error && <p className="error-message">{error}</p>}

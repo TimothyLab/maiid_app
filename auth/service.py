@@ -67,7 +67,12 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
         
         user = get_user(db, nom)
         groupe = db.query(Groupe).join(User, User.id_groupe == Groupe.id_groupe).filter(User.login == nom).first()
-        user.role = groupe.nom_groupe
+        print(f"toto :",groupe.nom_groupe)
+        if groupe:
+            user.role = groupe.nom_groupe
+        if user.role is None:
+            user.role = "Visiteur"
+        
         print("Utilisateur trouvé:", user.role) 
     
     except JWTError as e :

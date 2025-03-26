@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage';
 import AuthPage from './components/AuthPage';
 import Analyse from './pages/Analyse';
 import AdminUserList from './components/AdminUserList';
+import './App.css';
 
 function App() {
     const isLogin = !!localStorage.getItem("token");

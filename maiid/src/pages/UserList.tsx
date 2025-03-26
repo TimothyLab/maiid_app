@@ -9,7 +9,7 @@ const App: React.FC = () => {
         const token = localStorage.getItem('token');
         if (token) {
             // On fait une requête vers le backend pour vérifier si l'utilisateur est admin
-            fetch('http://127.0.0.1:8000/admin/users', {
+            fetch('http://192.168.1.144:8000/admin/users', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
