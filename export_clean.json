@@ -1,0 +1,76 @@
+{
+  "ANALYSE": [
+    {
+      "id_analyse": 4,
+      "date_analyse": "2025-03-28 17:37:26",
+      "algo_config": null,
+      "user_feedback": null,
+      "created_at": "2025-03-28 16:37:26",
+      "id_user": 7,
+      "id_image": 3
+    }
+  ],
+  "BOUNDING_BOX": [
+    {
+      "id_bounding_box": 4,
+      "x1": 209.9,
+      "y1": 387.242,
+      "x2": 382.028,
+      "y2": 571.272,
+      "class_result": "Moustique",
+      "id_image": 3
+    },
+    {
+      "id_bounding_box": 5,
+      "x1": 952.011,
+      "y1": 604.585,
+      "x2": 1090.88,
+      "y2": 752.46,
+      "class_result": "Moustique",
+      "id_image": 3
+    }
+  ],
+  "GROUPE": [
+    {
+      "id_groupe": 1,
+      "nom_groupe": "'Admin"
+    },
+    {
+      "id_groupe": 2,
+      "nom_groupe": "'Utilisateur"
+    },
+    {
+      "id_groupe": 3,
+      "nom_groupe": "Visiteur"
+    }
+  ],
+  "IMAGE": [
+    {
+      "id_image": 3,
+      "md5_hash": "4f599f21d98dcf66321497a54f642b6c",
+      "image_path": "uploaded_images/4f599f21d98dcf66321497a54f642b6c.png"
+    }
+  ],
+  "UTILISATEUR": [
+    {
+      "id_user": 1,
+      "login": "Tim",
+      "password": "$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK",
+      "nom": "Labidi",
+      "prenom": "Timothy",
+      "email": "t@t.fr",
+      "date_inscription": "2025-03-19",
+      "id_groupe": 1
+    },
+    {
+      "id_user": 7,
+      "login": "gab",
+      "password": "$2b$12$LGACMb7ckwOXf35fzKTSP.shMqw1bpXpg1/WS9JTGFPUzL/PQuoEC",
+      "nom": "gabriel",
+      "prenom": "michaux",
+      "email": "g.m@gmail.com",
+      "date_inscription": "2025-03-28",
+      "id_groupe": 2
+    }
+  ]
+}

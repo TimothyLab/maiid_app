@@ -1,0 +1,140 @@
+{
+  "ANALYSE": [
+    [
+      1,
+      "2025-03-28 17:36:23",
+      null,
+      null,
+      "2025-03-28 16:36:23",
+      1,
+      "1)"
+    ],
+    [
+      "(2",
+      "2025-03-28 17:37:11",
+      null,
+      null,
+      "2025-03-28 16:37:11",
+      7,
+      "2)"
+    ],
+    [
+      "(3",
+      "2025-03-28 17:37:17",
+      null,
+      null,
+      "2025-03-28 16:37:17",
+      7,
+      "2)"
+    ],
+    [
+      "(4",
+      "2025-03-28 17:37:26",
+      null,
+      null,
+      "2025-03-28 16:37:26",
+      7,
+      3
+    ]
+  ],
+  "BOUNDING_BOX": [
+    [
+      1,
+      1936.71,
+      3435.13,
+      2750.07,
+      4280.36,
+      "Moustique",
+      "1)"
+    ],
+    [
+      "(2",
+      772.328,
+      574.133,
+      1037.54,
+      786.484,
+      "Moustique",
+      "2)"
+    ],
+    [
+      "(3",
+      772.328,
+      574.133,
+      1037.54,
+      786.484,
+      "Moustique",
+      "2)"
+    ],
+    [
+      "(4",
+      209.9,
+      387.242,
+      382.028,
+      571.272,
+      "Moustique",
+      "3)"
+    ],
+    [
+      "(5",
+      952.011,
+      604.585,
+      1090.88,
+      752.46,
+      "Moustique",
+      3
+    ]
+  ],
+  "GROUPE": [
+    [
+      1,
+      "'Admin')"
+    ],
+    [
+      "(2",
+      "'Utilisateur')"
+    ],
+    [
+      "(3",
+      "Visiteur"
+    ]
+  ],
+  "IMAGE": [
+    [
+      1,
+      "74e07ced2d96dbaa3fb205427acca142",
+      "'uploaded_images/74e07ced2d96dbaa3fb205427acca142.jpg')"
+    ],
+    [
+      "(2",
+      "a74b535ece6c62f32296657cda5b4e35",
+      "'uploaded_images/a74b535ece6c62f32296657cda5b4e35.jpg')"
+    ],
+    [
+      "(3",
+      "4f599f21d98dcf66321497a54f642b6c",
+      "uploaded_images/4f599f21d98dcf66321497a54f642b6c.png"
+    ]
+  ],
+  "UTILISATEUR": [
+    [
+      1,
+      "Tim",
+      "$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK",
+      "Labidi",
+      "Timothy",
+      "t@t.fr",
+      "2025-03-19",
+      "1)"
+    ],
+    [
+      "(7",
+      "gab",
+      "$2b$12$LGACMb7ckwOXf35fzKTSP.shMqw1bpXpg1/WS9JTGFPUzL/PQuoEC",
+      "gabriel",
+      "michaux",
+      "g.m@gmail.com",
+      "2025-03-28",
+      2
+    ]
+  ]
+}

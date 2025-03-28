@@ -29,9 +29,9 @@ def verify_password(plain_password, hashed_password):
 def get_user(db: Session, username: str):
     return db.query(User).filter(User.login == username).first()
 
-def create_user(db: Session,login: str, password: str,nom: str, prenom: str, email: str):
+def create_user(db: Session,login: str, password: str,nom: str, prenom: str, ):
     hashed_password = hash_password(password)
-    db_user = User(login=login, password=hashed_password,nom=nom, prenom=prenom, email=email,date_inscription=datetime.now(), id_groupe=2)
+    db_user = User(login=login, password=hashed_password,nom=nom, prenom=prenom, date_inscription=datetime.now())
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -67,12 +67,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
         
         user = get_user(db, nom)
         groupe = db.query(Groupe).join(User, User.id_groupe == Groupe.id_groupe).filter(User.login == nom).first()
-        print(f"toto :",groupe.nom_groupe)
-        if groupe:
-            user.role = groupe.nom_groupe
-        if user.role is None:
-            user.role = "Visiteur"
-        
+        user.role = groupe.nom_groupe
         print("Utilisateur trouvé:", user.role) 
     
     except JWTError as e :
@@ -83,6 +78,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
         #print("Utilisateur non trouvé dans la base de données")
         raise credentials_exception
 
-    #user = UserResponse.from_orm(user)
+    user = UserResponse.from_orm(user)
 
     return user
