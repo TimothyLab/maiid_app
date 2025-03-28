@@ -192,3 +192,12 @@ def clean_and_format_json(input_json_path, output_json_path):
 
 # Exemple d'utilisation
 clean_and_format_json('export.json', 'export_clean.json')
+
+
+
+def get_data_from_json(file_path: str):
+    with open(file_path, 'r') as file:  
+        data = json.load(file)
+    return data
+
+print(get_data_from_json('export_clean.json'))

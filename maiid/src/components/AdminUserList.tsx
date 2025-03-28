@@ -19,7 +19,7 @@ const AdminUserList: React.FC = () => {
             return;
         }
 
-        fetch('http://192.168.1.144:8000/auth/users/me', {
+        fetch('/auth/users/me', {
             method: 'GET',
             headers: { Authorization: `Bearer ${token}` },
         })

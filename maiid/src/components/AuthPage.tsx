@@ -27,7 +27,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
         const payload = { username, password,nom,prenom, email};
 
         try {
-            const response = await fetch(`http://192.168.1.144:8000${url}`, {
+            const response = await fetch(`${url}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

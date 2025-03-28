@@ -9,6 +9,9 @@ from passlib.context import CryptContext
 from fastapi import Depends,HTTPException,status
 from fastapi.security import OAuth2PasswordBearer
 
+import json
+from typing import Dict, Any
+
 
 
 # Clés et paramètres pour JWT
@@ -19,6 +22,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+def get_data_from_json(file_path: str):
+    with open(file_path, 'r') as file:  
+        data = json.load(file)
+    return data
 
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
@@ -81,3 +88,23 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     user = UserResponse.from_orm(user)
 
     return user
+
+# Charger les données JSON (à faire une seule fois au démarrage)
+def load_json_data() -> Dict[str, Any]:
+    try:
+        with open('export_clean.json', 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erreur de chargement des données: {str(e)}"
+        )
+
+JSON_DATA = load_json_data()
+
+# Modifier la fonction get_user pour utiliser JSON
+def get_user_from_json(username: str):
+    for user in JSON_DATA["UTILISATEUR"]:
+        if user["login"] == username:
+            return user
+    return None

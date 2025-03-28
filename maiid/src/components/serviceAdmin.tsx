@@ -14,7 +14,7 @@ export interface User {
 
 export const getUsers = async (token: string) => {
     try {
-      const response = await axios.get('http://192.168.1.144:8000/auth/admin/users', {
+      const response = await axios.get('/auth/admin/users', {
         headers: {
           'Authorization': `Bearer ${token}`, 
         }
@@ -28,7 +28,7 @@ export const getUsers = async (token: string) => {
 
   export const updateUser = async (id: number, updatedData: Partial<User>, token: string): Promise<void> => {
     try {
-        const response = await fetch(`http://192.168.1.144:8000/auth/users/${id}`, {
+        const response = await fetch(`/auth/users/${id}`, {
             method: 'PUT',  
             headers: {
                 'Content-Type': 'application/json',
