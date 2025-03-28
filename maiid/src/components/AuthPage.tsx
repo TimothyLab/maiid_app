@@ -25,9 +25,10 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
 
         const url = isLogin ? "/auth/login/" : "/auth/register/";
         const payload = { username, password,nom,prenom, email};
-
+        console.warn(url)
         try {
-            const response = await fetch(`http://192.168.1.144:8000${url}`, {
+            
+            const response = await fetch(`${url}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

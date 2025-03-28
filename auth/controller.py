@@ -12,6 +12,10 @@ router = APIRouter(
 )
 
 # Routes pour la gestion des utilisateurs et l'authentification
+@router.get("/test")
+def test():
+    return {"message": "Test réussi"}
+
 
 @router.post("/register/")
 def register(user: UserCreate, db: Session = Depends(get_db)):

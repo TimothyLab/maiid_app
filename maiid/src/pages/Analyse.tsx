@@ -99,7 +99,7 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
         formData.append("file", selectedFile);
 
         try {
-            const response = await fetch("http://192.168.1.144:8000/analyse/analyse", {
+            const response = await fetch("/analyse/analyse", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`, // Authentification via le token

@@ -16,8 +16,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE DATABASE IF NOT EXISTS `maiid_app` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `maiid_app`;
 --
 -- Table structure for table `ANALYSE`
 --
@@ -34,9 +32,11 @@ CREATE TABLE `ANALYSE` (
   `id_user` int(11) NOT NULL,
   `id_image` int(11) NOT NULL,
   PRIMARY KEY (`id_analyse`),
+  KEY `ANALYSE_ibfk_1` (`id_user`),
+  KEY `ANALYSE_ibfk_2` (`id_image`),
   CONSTRAINT `ANALYSE_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `UTILISATEUR` (`id_user`) ON DELETE CASCADE,
   CONSTRAINT `ANALYSE_ibfk_2` FOREIGN KEY (`id_image`) REFERENCES `IMAGE` (`id_image`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +45,11 @@ CREATE TABLE `ANALYSE` (
 
 LOCK TABLES `ANALYSE` WRITE;
 /*!40000 ALTER TABLE `ANALYSE` DISABLE KEYS */;
+INSERT INTO `ANALYSE` VALUES
+(1,'2025-03-28 17:36:23',NULL,NULL,'2025-03-28 16:36:23',1,1),
+(2,'2025-03-28 17:37:11',NULL,NULL,'2025-03-28 16:37:11',7,2),
+(3,'2025-03-28 17:37:17',NULL,NULL,'2025-03-28 16:37:17',7,2),
+(4,'2025-03-28 17:37:26',NULL,NULL,'2025-03-28 16:37:26',7,3);
 /*!40000 ALTER TABLE `ANALYSE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,9 +69,25 @@ CREATE TABLE `BOUNDING_BOX` (
   `class_result` varchar(255) NOT NULL,
   `id_image` int(11) NOT NULL,
   PRIMARY KEY (`id_bounding_box`),
+  KEY `BOUNDING_BOX_ibfk_2` (`id_image`),
   CONSTRAINT `BOUNDING_BOX_ibfk_2` FOREIGN KEY (`id_image`) REFERENCES `IMAGE` (`id_image`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BOUNDING_BOX`
+--
+
+LOCK TABLES `BOUNDING_BOX` WRITE;
+/*!40000 ALTER TABLE `BOUNDING_BOX` DISABLE KEYS */;
+INSERT INTO `BOUNDING_BOX` VALUES
+(1,1936.71,3435.13,2750.07,4280.36,'Moustique',1),
+(2,772.328,574.133,1037.54,786.484,'Moustique',2),
+(3,772.328,574.133,1037.54,786.484,'Moustique',2),
+(4,209.9,387.242,382.028,571.272,'Moustique',3),
+(5,952.011,604.585,1090.88,752.46,'Moustique',3);
+/*!40000 ALTER TABLE `BOUNDING_BOX` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `GROUPE`
@@ -80,7 +101,7 @@ CREATE TABLE `GROUPE` (
   `nom_groupe` varchar(255) NOT NULL,
   PRIMARY KEY (`id_groupe`),
   UNIQUE KEY `nom_groupe` (`nom_groupe`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,6 +110,10 @@ CREATE TABLE `GROUPE` (
 
 LOCK TABLES `GROUPE` WRITE;
 /*!40000 ALTER TABLE `GROUPE` DISABLE KEYS */;
+INSERT INTO `GROUPE` VALUES
+(1,'Admin'),
+(2,'Utilisateur'),
+(3,'Visiteur');
 /*!40000 ALTER TABLE `GROUPE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,7 +130,7 @@ CREATE TABLE `IMAGE` (
   `image_path` text NOT NULL,
   PRIMARY KEY (`id_image`),
   UNIQUE KEY `md5_hash` (`md5_hash`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,6 +139,10 @@ CREATE TABLE `IMAGE` (
 
 LOCK TABLES `IMAGE` WRITE;
 /*!40000 ALTER TABLE `IMAGE` DISABLE KEYS */;
+INSERT INTO `IMAGE` VALUES
+(1,'74e07ced2d96dbaa3fb205427acca142','uploaded_images/74e07ced2d96dbaa3fb205427acca142.jpg'),
+(2,'a74b535ece6c62f32296657cda5b4e35','uploaded_images/a74b535ece6c62f32296657cda5b4e35.jpg'),
+(3,'4f599f21d98dcf66321497a54f642b6c','uploaded_images/4f599f21d98dcf66321497a54f642b6c.png');
 /*!40000 ALTER TABLE `IMAGE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,8 +164,9 @@ CREATE TABLE `UTILISATEUR` (
   `id_groupe` int(11) NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `login` (`login`),
+  KEY `UTILISATEUR_ibfk_1` (`id_groupe`),
   CONSTRAINT `UTILISATEUR_ibfk_1` FOREIGN KEY (`id_groupe`) REFERENCES `GROUPE` (`id_groupe`) ON DELETE CASCADE
-  ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,21 +176,11 @@ CREATE TABLE `UTILISATEUR` (
 LOCK TABLES `UTILISATEUR` WRITE;
 /*!40000 ALTER TABLE `UTILISATEUR` DISABLE KEYS */;
 INSERT INTO `UTILISATEUR` VALUES
-(1,'Tim','$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK','Labidi','Timothy','t@t.fr','2025-03-19',1);
+(1,'Tim','$2b$12$DRyjQn26icHcVBLQRnSBk.mDm1va8uYXraAEz9LSIVMVGqBNgSHBK','Labidi','Timothy','t@t.fr','2025-03-19',1),
+(7,'gab','$2b$12$LGACMb7ckwOXf35fzKTSP.shMqw1bpXpg1/WS9JTGFPUzL/PQuoEC','gabriel','michaux','g.m@gmail.com','2025-03-28',2);
 /*!40000 ALTER TABLE `UTILISATEUR` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping data for table `GROUPE`
---
-
-LOCK TABLES `GROUPE` WRITE;
-INSERT INTO `GROUPE` VALUES
-(1, 'Admin'),
-(2, 'Utilisateur'),
-(3, 'Visiteur');
-UNLOCK TABLES;
-
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -170,4 +190,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-19  9:49:53
+-- Dump completed on 2025-03-28 17:38:36
