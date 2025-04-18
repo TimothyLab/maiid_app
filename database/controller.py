@@ -1,6 +1,5 @@
 #route
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
 from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
 from auth.service import get_user,verify_password,ACCESS_TOKEN_EXPIRE_MINUTES,create_access_token
