@@ -3,6 +3,8 @@ import LoginPage from './pages/LoginPage';
 import AuthPage from './components/AuthPage';
 import Analyse from './pages/Analyse';
 import AdminUserList from './components/AdminUserList';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
@@ -10,17 +12,24 @@ function App() {
 
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={<Navigate to="/login/" />} />
-                <Route path="/login" element={<LoginPage/>} />
-                <Route path="/register" element={<AuthPage isLogin={false} />} />
-                <Route path="/analyse" element={<Analyse isLogin={isLogin} />} />
-                {isLogin && (
-                    <Route path="/admin/users" element={<AdminUserList />} />
-                )}
-            </Routes>
+            <div className="App">
+                <Header />
+                <div className="main-content-wrapper">
+                    <Routes>
+                        <Route path="/" element={<Navigate to="/login" />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<AuthPage isLogin={false} />} />
+                        <Route path="/analyse" element={<Analyse isLogin={isLogin} />} />
+                        {isLogin && (
+                            <Route path="/admin/users" element={<AdminUserList />} />
+                        )}
+                    </Routes>
+                </div>
+                <Footer />
+            </div>
         </Router>
     );
 }
 
 export default App;
+

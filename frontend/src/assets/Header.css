@@ -1,0 +1,86 @@
+/* === Structure générale du header === */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #ccc;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+
+/* === Section gauche : logos === */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  height: 95px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* === Section centrale : titre principal === */
+.header-title {
+  flex-grow: 1;
+  text-align: center;
+  padding: 0 2rem;
+}
+
+.header-title h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.3;
+  margin: 0;
+  color: #222;
+}
+
+/* === Section droite : liens de navigation === */
+.header-right ul {
+  display: flex;
+  gap: 1.2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header-right a {
+  text-decoration: none;
+  color: #0077cc;
+  font-weight: 500;
+}
+
+.header-right a:hover {
+  text-decoration: underline;
+}
+
+/* === Responsive (mobile) === */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header-left,
+  .header-right {
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .header-title {
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .header-right ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+}

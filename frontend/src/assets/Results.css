@@ -1,0 +1,16 @@
+.result-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .result-section h3 {
+    margin-bottom: 10px;
+  }
+  
+  .result-section p {
+    margin: 5px 0;
+  }
+  

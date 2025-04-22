@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import '../components/AdminUserList'
 import DetectionCanvas from '../components/DetectionCanvas';
+import '../assets/Analyse.css'
+
 
 
 interface AnalyseProps {
@@ -44,6 +46,7 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDetections([]);
         const file = e.target.files?.[0];
         if (file) {
             const img = new Image();
@@ -147,46 +150,79 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
     };
 
     return (
-        <div className="App">
-            <header className="App-header"> 
-                <h1> Bienvenue sur le projet MAIID </h1>
-                {isLogin && <p>Utilisateur connecté</p>}
-                <div className="header-container">
-                <button onClick={handleLogout} className="logout-button">Se Déconnecter</button>
-                </div>
+        <div className="main-content-mosquito">
+          <div className="mosquito-container">
+            <header className="mosquito-header">
+                 {isLogin && <p className="user-status">Utilisateur connecté</p>}
+                {/* <button onClick={handleNavigate("/")} className="btn">Accueil</button> */}
+                <button onClick={handleLogout} className="btn btn-secondary">Se déconnecter</button>
+              
             </header>
-
-            <div>
-                <input type="file" onChange={handleChange} />
-                {imageUrl && detections.length > 0 && ( 
-                    <div className='image-container'>                             
-                        <DetectionCanvas imageUrl={imageUrl} boxes={formattedBoxes} />
-                    </div> )}
-            </div>
-
-            <div>
-                <button onClick={handleUpload}
-                className={`button-primary' ${isLoading ? 'button-loading' : ''}`}
-                disabled={isLoading}>{isLoading ? 'Chargement...' : 'Analyser l\'image'}</button>
-                <button onClick={handleNavigate("/admin/users")}>Liste des utilisateurs</button>
-            </div>
-
+      
+            <section className="mosquito-objective">
+              <p>
+              MAAID est un outil conçu pour fournir une identification précise et rapide des différentes espèces de moustiques.
+              Cette solution utilise des techniques avancées de reconnaissance d’image pour analyser des photos fournies par les utilisateurs.
+              </p>
+            </section>
+      
+            <section className="mosquito-upload-section">
+              <h2>TESTER LE SERVICE :</h2>
+              <p>Sélectionnez ou déposez une ou plusieurs image(s)</p>
+              <p>Fichiers autorisés : JPEG, PNG (max 5Mo)</p>
+              <p>Limitation : 5 requêtes par heure (version de démonstration)</p>
+              
+            
+              <input
+                className="file-input"
+                type="file"
+                accept="image/png, image/jpeg"
+                onChange={handleChange}
+                
+              />
+                {imageUrl && ( 
+                 <div className='image-container'>                             
+                    <DetectionCanvas imageUrl={imageUrl} boxes={formattedBoxes} />
+                    </div> 
+                  )}
+            </section>
+      
+            <section className="analysis-section">
+              <button
+                onClick={handleUpload}
+                className="analyze-button"
+                disabled={isLoading}
+              >
+                {isLoading ? "Chargement..." : "Analyser l'image"}
+              </button>
+              <button className="btn" onClick={handleNavigate("/admin/users")}>Liste des utilisateurs</button>
+            </section>
+      
             {detections.length > 0 && (
-                <div>
-                    <h2>Résultats de l'Analyse :</h2>
-                    <ul>
-                        {detections.map((det, index) => (
-                            <li key={index}>
-                                <strong>Espèce :</strong>{det.species},
-                                <strong>Confiance :</strong>{det.confidence.toFixed(2)}, 
-                                <strong>Bounding_box :</strong>{det.bounding_box}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+              <section className="mosquito-results">
+                <h2>Résultats de l’analyse</h2>
+                <ul className="results-list">
+                  {detections.map((det, index) => (
+                    <li className="result-item" key={index}>
+                      <strong>Espèce :</strong> {det.species}<br />
+                      <strong>Confiance :</strong> {det.confidence.toFixed(2)}<br />
+                      <strong>Bounding box :</strong> {det.bounding_box.join(', ')}
+                    </li>
+                  ))}
+                </ul>
+              </section>
             )}
+      
+            <footer>
+              <div className="footer-links">
+                <button onClick={handleNavigate("/about")} className="btn-footer">À propos</button>
+                <button onClick={handleNavigate("/legal")} className="btn-footer">Mentions légales</button>
+              </div>
+              <p>&copy; INRAE UMR EPIA 2023</p>
+            </footer>
+          </div>
         </div>
-    );
+      );
 };
 
 export default Analyse;
