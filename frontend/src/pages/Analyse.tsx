@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import '../components/AdminUserList'
+import DetectionCanvas from '../components/DetectionCanvas';
+
 
 interface AnalyseProps {
     isLogin: boolean;
@@ -16,12 +18,20 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null); 
     const [detections, setDetections] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false); // Ajout de l'état pour le chargement
+    const formattedBoxes = detections.map((det) => ({
+        x1: det.bounding_box[0],
+        y1: det.bounding_box[1],
+        x2: det.bounding_box[2],
+        y2: det.bounding_box[3],
+        class_result: det.species,
+        confidence: det.confidence
+    }));
 
 
     // Vérifier l'authentification
     useEffect(() => {
         const token = localStorage.getItem("token");
-        console.log("Token envoyé:", token);
+        console.log("Token envoyé 1 UseEffect :", token);
         if (!token) {
             console.log("Token:", localStorage.getItem("token"));
             navigate("/auth/login"); // Redirige vers la page de connexion si non connecté
@@ -69,8 +79,14 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
                     canvas.height = newHeight;
                     ctx.drawImage(img, 0, 0, newWidth, newHeight);
 
-                    const resizedImageUrl = canvas.toDataURL();
-                    setImageUrl(resizedImageUrl);
+                    // Convertir en Blob puis File
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            const resizedFile = new File([blob], file.name, { type: file.type });
+                            setSelectedFile(resizedFile);
+                            setImageUrl(URL.createObjectURL(resizedFile));
+                        }
+                    }, file.type);
                 }    
 
             };
@@ -92,7 +108,7 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
         }
 
         const token = localStorage.getItem("token");
-        console.log("Token envoyé:", token); // <-- Log le token
+        console.log("Token envoyé 2 Handle upload :", token); // <-- Log le token
 
         setIsLoading(true); // Début du chargement
         const formData = new FormData();
@@ -114,9 +130,9 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
                 setIsLoading(false); // Fin du chargement
                 return;
             }
-
+            console.log("reponse du backend :") ; 
             const data = await response.json();
-            //console.log("Réponse du serveur :", data);
+            console.log("Réponse du serveur avec les données associées :", data);
             setDetections(data.detections || []);
         } catch (error) {
             console.error("Erreur lors de l'upload :", error);
@@ -142,9 +158,9 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
 
             <div>
                 <input type="file" onChange={handleChange} />
-                {imageUrl && ( 
+                {imageUrl && detections.length > 0 && ( 
                     <div className='image-container'>                             
-                        <img src={imageUrl} className="image" alt="Preview" />
+                        <DetectionCanvas imageUrl={imageUrl} boxes={formattedBoxes} />
                     </div> )}
             </div>
 
@@ -174,23 +190,4 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
 };
 
 export default Analyse;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
