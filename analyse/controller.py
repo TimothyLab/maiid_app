@@ -21,6 +21,9 @@ async def analyse_image(file: UploadFile = File(...),current_user: User = Depend
     
     # Lire l'image
     image_data = await file.read()
+    print(type(image_data))
+    print(len(image_data))
+
     image = cv2.imdecode(np.frombuffer(image_data, np.uint8), cv2.IMREAD_COLOR)
     
     
