@@ -67,22 +67,19 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
         
         user = get_user(db, nom)
         groupe = db.query(Groupe).join(User, User.id_groupe == Groupe.id_groupe).filter(User.login == nom).first()
-        print(f"toto :",groupe.nom_groupe)
         if groupe:
             user.role = groupe.nom_groupe
         if user.role is None:
             user.role = "Visiteur"
         
-        print("Utilisateur trouvé:", user.role) 
+        #print("Utilisateur trouvé:", user.role) 
     
     except JWTError as e :
         #print("Erreur JWT:", e)
         raise credentials_exception
     
     if user is None:
-        #print("Utilisateur non trouvé dans la base de données")
+        print("Utilisateur non trouvé dans la base de données")
         raise credentials_exception
-
-    #user = UserResponse.from_orm(user)
 
     return user

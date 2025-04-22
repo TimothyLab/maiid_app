@@ -3,3 +3,7 @@ MAIID-POSITIVE-IMAGES/
 weights/
 uploaded_images/
 build/
+__pycache__/
+analyse/__pycache__/
+auth/__pycache__/
+database/__pycache__/
