@@ -167,8 +167,8 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
             </section>
       
             <section className="mosquito-upload-section">
-              <h2>TESTER LE SERVICE :</h2>
-              <p>Sélectionnez ou déposez une image</p>
+              {/* <h2>TESTER LE SERVICE :</h2> */}
+              <p>Sélectionnez une image</p>
               <p>Fichiers autorisés : JPEG, PNG (max 5Mo)</p>
               {/* <p>Limitation : 5 requêtes par heure (version de démonstration)</p> */}
               
