@@ -57,13 +57,27 @@ const DetectionCanvas: React.FC<DetectionCanvasProps> = ({ imageUrl, boxes }) =>
           const height = ((box.y2 - box.y1) / img.height) * imageSize.height;
 
           ctx.strokeStyle = 'red';
-          ctx.lineWidth = 3;
+          ctx.lineWidth = 5;
           ctx.strokeRect(x, y, width, height);
 
-          // Ajouter un label avec la classe et le score
+          // Ajouter un fond rouge derrière le texte
           const label = `${box.class_result} (${(box.confidence ? (box.confidence * 100).toFixed(1) : 'N/A')}%)`;
+
+          // Mesurer la largeur et la hauteur du texte pour ajouter un fond rouge
+          const textWidth = ctx.measureText(label).width;
+          const textHeight = 16; // Hauteur approximative du texte
+
+          // Calculer un léger décalage pour ne pas superposer le fond rouge sur la box
+          const padding = 5;
+
+          // Fond rouge juste sous le texte, mais au-dessus de la bounding box
           ctx.fillStyle = 'red';
-          ctx.fillText(label, x, y > 10 ? y - 10 : 10);
+          ctx.fillRect(x, y - textHeight - padding, textWidth + 2 * padding, textHeight + 2 * padding); // Fond derrière le texte
+
+          // Couleur du texte : blanc
+          ctx.fillStyle = 'white';
+          ctx.fillText(label, x + padding, y - padding); // Position du texte directement au-dessus de la bounding box
+
         });
       }
     }
