@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthPage from '../components/AuthPage';
+import RegisterPage from './RegisterPage';
 import { useNavigate } from 'react-router-dom';
 import '../assets/LoginPage.css';
 
@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
     return (
         <div className="login-background">
             <div className="login-wrapper">
-                <AuthPage isLogin={true} />
+                <RegisterPage isLogin={true} />
                 <button className="signup-button" onClick={goToRegister}>
                     Pas encore de compte ? Inscris-toi
                 </button>

@@ -68,7 +68,7 @@ async def analyse_image(file: UploadFile = File(...),current_user: User = Depend
     image = create_image(db, image_path=image_path, md5_hash=md5_hash)
   
     # Enregistrer l'analyse dans la base de données
-    analyse = create_analyse(db, id_user=current_user.id_user, id_image=image.id_image)
+    create_analyse(db, id_user=current_user.id_user, id_image=image.id_image)
 
     
     # Enregistrer chaque bounding box dans la base de données
@@ -82,7 +82,6 @@ async def analyse_image(file: UploadFile = File(...),current_user: User = Depend
             class_result=detection["species"],
             id_image=image.id_image
         )
-    #print(analyse)
-    #print(detections)
+    
 
     return JSONResponse(content={"detections": detections})

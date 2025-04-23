@@ -12,12 +12,7 @@ router = APIRouter(
 )
 
 # Routes pour la gestion des utilisateurs et l'authentification
-@router.get("/test")
-def test():
-    return {"message": "Test réussi"}
-
-
-@router.post("/register/")
+@router.post("/register")
 def register(user: UserCreate, db: Session = Depends(get_db)):
     # Vérification si l'utilisateur existe déjà
     db_user = db.query(User).filter(User.nom == user.username).first()
@@ -32,28 +27,28 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
 @router.post("/login")
 def login(user: UserCreate = Body(...), db: Session = Depends(get_db)):
     db_user = get_user(db, user.username)
-    print("results function db_user", user.username)
+
     if not db_user or not verify_password(user.password, db_user.password):
         raise HTTPException(status_code=401, detail="Identifiants incorrects")
     
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": db_user.login}, expires_delta=access_token_expires)
-    return {"access_token": access_token, "token_type": "bearer", "username ": user.username}
+    return {"access_token": access_token, "token_type": "bearer", "username ": user.username , "role": db_user.id_groupe}
+
 
 
 @router.get("/admin/users", response_model=list[UserResponse])
 def get_users(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     if current_user.role != "Admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Accès refusé")
-    
-    #print(f"L'utilisateur appartient au groupe : {current_user.groupe.nom_groupe}")
-    
+        
     users = db.query(User).all()
+    
     return [UserResponse.from_orm(user) for user in users]
 
 @router.put("/users/{id}", response_model=UserResponse)
 def update_user(id: int, user_data: UserUpdate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    print(f"resultat de la route /user/{id}",user_data.dict(exclude_unset=True))
+    #print(f"resultat de la route /user/{id}",user_data.dict(exclude_unset=True))
     if current_user.role != "Admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Accès refusé")
 
@@ -77,12 +72,4 @@ def update_user(id: int, user_data: UserUpdate, current_user: User = Depends(get
 
 @router.get("/users/me", response_model=UserResponse)  # Réponse formatée avec le modèle User
 async def read_users_me(current_user: UserResponse = Depends(get_current_user)):
-    #return UserResponse.from_orm(current_user)
-    return UserResponse(
-        id_user=1,
-        login="Tim",
-        nom="t@t.fr",
-        prenom="Timothy",
-        date_inscription="2025-03-19",
-        role="Admin"
-    ) # A MODIFIER ! Pour récupérer les données de l'utilisateur connecté moins de faire un seul compte admin et de le renvoyer en dur
+    return UserResponse.from_orm(current_user)

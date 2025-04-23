@@ -11,8 +11,6 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str
 
-
-
 class UserCreate(BaseModel):
     username: str
     password: str
@@ -47,17 +45,3 @@ class UserUpdate(BaseModel):
     prenom: Optional[str] = None
     login: Optional[str] = None
     role: Optional[str] = None
-
-"""
-    class Config:
-        orm_mode = True
-        #from_attributes = True
-        #arbitrary_types_allowed = True
-
-    @root_validator(pre=True)
-    def convert_date_inscription(cls, values):
-        # Convertir le champ date_inscription en chaîne de caractères
-        if 'date_inscription' in values and isinstance(values['date_inscription'], datetime):
-            values['date_inscription'] = values['date_inscription'].strftime('%Y-%m-%d')  # format de votre choix
-        return values
-"""

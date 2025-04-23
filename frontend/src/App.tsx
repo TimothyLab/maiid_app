@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-import AuthPage from './components/AuthPage';
+import RegisterPage from './pages/RegisterPage';
 import Analyse from './pages/Analyse';
-import AdminUserList from './components/AdminUserList';
+import AdminUserList from './pages/AdminUserList';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import './App.css';
@@ -18,7 +18,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Navigate to="/login" />} />
                         <Route path="/login" element={<LoginPage />} />
-                        <Route path="/register" element={<AuthPage isLogin={false} />} />
+                        <Route path="/register" element={<RegisterPage isLogin={false} />} />
                         <Route path="/analyse" element={<Analyse isLogin={isLogin} />} />
                         {isLogin && (
                             <Route path="/admin/users" element={<AdminUserList />} />

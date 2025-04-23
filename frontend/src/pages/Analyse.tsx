@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
-import '../components/AdminUserList'
+import './AdminUserList'
 import DetectionCanvas from '../components/DetectionCanvas';
 import '../assets/Analyse.css'
 
@@ -14,7 +14,6 @@ const MAX_WIDTH = 800;
 const MAX_HEIGHT = 600;
 
 const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
-    const username = localStorage.getItem("username");
     const navigate = useNavigate();
     const [imageUrl, setImageUrl] = useState<string>(''); 
     const [selectedFile, setSelectedFile] = useState<File | null>(null); 
@@ -39,11 +38,6 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
             navigate("/auth/login"); // Redirige vers la page de connexion si non connecté
         }
     }, [navigate]);
-
-    const handleLogout = () => {
-        localStorage.removeItem("token"); // Supprime le token
-        navigate("/login"); // Redirige vers la page de connexion
-    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDetections([]);
@@ -144,20 +138,11 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
         }
     };
 
-    const handleNavigate = (path: string) => () => {
-        console.log("Navigation vers", path); 
-        navigate(path);
-    };
+    
 
     return (
         <div className="main-content-mosquito">
           <div className="mosquito-container">
-            <header className="mosquito-header">
-                {/*  {isLogin && <p className="user-status">Utilisateur connecté : {username} </p>}
-                {/* <button onClick={handleNavigate("/")} className="btn">Accueil</button> */}
-                {/* <button onClick={handleLogout} className="btn btn-secondary">Se déconnecter</button> */}
-              
-            </header>
       
             <section className="mosquito-objective">
               <p>
@@ -167,10 +152,8 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
             </section>
       
             <section className="mosquito-upload-section">
-              {/* <h2>TESTER LE SERVICE :</h2> */}
               <p>Sélectionnez une image</p>
               <p>Fichiers autorisés : JPEG, PNG (max 5Mo)</p>
-              {/* <p>Limitation : 5 requêtes par heure (version de démonstration)</p> */}
               
             
               <input
@@ -195,7 +178,7 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
                 >
                     {isLoading ? "Chargement..." : "Analyser l'image"}
             </button>
-                <button className="btn" onClick={handleNavigate("/admin/users")}>Liste des utilisateurs</button>
+                
             </section>
       
             {detections.length > 0 && (

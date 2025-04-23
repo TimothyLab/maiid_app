@@ -39,7 +39,6 @@ class BoundingBox(Base):
     x2 = Column(Integer, nullable=False)
     y2 = Column(Integer, nullable=False)
     class_result = Column(String(255), nullable=False)
-    #id_analyse = Column(Integer, ForeignKey("ANALYSE.id_analyse"), nullable=False)
     id_image = Column(Integer, ForeignKey("IMAGE.id_image"), nullable=False)
 
 class Groupe(Base):
