@@ -8,15 +8,19 @@
 .main-content {
   width: 100%;
   padding: 40px;
+  padding-top: 120px;
 }
 body {
   overflow-x: hidden; /* Évite le débordement horizontal */
+  height: 100vh; /* Assure que la hauteur prend tout l'écran */
 }
 * {
   box-sizing: border-box;
 }
 
-.logo {
+/* Conteneur principal */
+
+.logo-spin {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
@@ -28,6 +32,27 @@ body {
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
+.main-content-wrapper {
+
+  flex-grow: 1; /* Permet au contenu de prendre toute la place restante */
+  padding-top: 80px; /* Marge pour éviter que le contenu ne soit caché sous le header fixe */
+  padding-bottom: 50px; /* Marge pour éviter que le contenu ne soit caché sous le footer fixe */
+
+  /* flex-grow: 1; /* Permet au contenu de prendre toute la place restante */
+  /* padding-top: 80px; /* Ajuster la marge pour le header */
+  /* padding-bottom: 60px; /* Ajuster la marge pour le footer */ 
+  /* display: flex; */
+  /* justify-content: center;  *//* Centrer horizontalement le contenu */
+  /* align-items: center; */ /* Centrer verticalement si nécessaire */
+  /* overflow: hidden; */ /* Empêche le débordement */
+  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); */
+  /* background-color: rgba(255, 255, 255, 0.9); /* léger fond blanc */ 
+  /* margin: 20px; */
+  /* border-radius: 12px; */
+  /* max-width: 100%; */ /* Evite que le contenu dépasse */  
+}
+
 
 @keyframes logo-spin {
   from {
@@ -57,9 +82,10 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Permet de prendre toute la hauteur de la page */
+  padding-top: 80px;
 }
 
-header {
+/* header {
   position: fixed;
   width: 100%;
   top: 0;
@@ -69,8 +95,9 @@ header {
   color: white;
   text-align: center;
   padding: 15px;
-}
-
+  /* font-size: 14px; */ /* Réduire la taille du texte */
+*/
+ 
 footer {
   position: fixed;
   width: 100%;
@@ -80,14 +107,10 @@ footer {
   background-color: #333;
   color: white;
   text-align: center;
-  padding: 10px;
+  padding: 8px;
+  font-size: 14px;
 }
 
-.main-content-wrapper {
-  flex-grow: 1; /* Permet au contenu de prendre toute la place restante */
-  padding-top: 80px; /* Marge pour éviter que le contenu ne soit caché sous le header fixe */
-  padding-bottom: 50px; /* Marge pour éviter que le contenu ne soit caché sous le footer fixe */
-}
 
 /* ---- IMAGE ---- */
 .image-container {
@@ -104,4 +127,32 @@ footer {
   object-fit: contain;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain; /* Assure que l'image est bien contenue sans dépasser */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.auth-logo {
+  width: 120px;
+  margin-bottom: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

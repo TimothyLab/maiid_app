@@ -1,19 +1,23 @@
 import React from 'react';
 import AuthPage from '../components/AuthPage';
 import { useNavigate } from 'react-router-dom';
+import '../assets/LoginPage.css';
 
 const LoginPage: React.FC = () => {
-    const navigate = useNavigate(); // Initialisation de navigate pour la redirection
+    const navigate = useNavigate();
 
-    // Fonction pour rediriger vers la page d'inscription
     const goToRegister = () => {
         navigate('/register/');
     };
 
     return (
-        <div>
-            <AuthPage isLogin={true} /> {/* La page de connexion */}
-            <button onClick={goToRegister}>Pas encore de compte ? Inscris-toi</button> {/* Bouton d'inscription */}
+        <div className="login-background">
+            <div className="login-wrapper">
+                <AuthPage isLogin={true} />
+                <button className="signup-button" onClick={goToRegister}>
+                    Pas encore de compte ? Inscris-toi
+                </button>
+            </div>
         </div>
     );
 };

@@ -10,7 +10,8 @@
   top: 0;
   width: 100%;
   z-index: 1000;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+  flex-wrap: nowrap;
 }
 
 /* === Section gauche : logos === */
@@ -21,7 +22,7 @@
 }
 
 .logo {
-  height: 95px;
+  height: 40px;
   width: auto;
   object-fit: contain;
 }
@@ -42,18 +43,24 @@
 }
 
 /* === Section droite : liens de navigation === */
-.header-right ul {
+/* .header-right ul {
   display: flex;
   gap: 1.2rem;
   list-style: none;
   padding: 0;
   margin: 0;
-}
+  width: 100%;
+} */
 
 .header-right a {
   text-decoration: none;
   color: #0077cc;
   font-weight: 500;
+  display: flex;            /* Assure que la section utilise flexbox */
+  align-items: center;      /* Aligne verticalement les éléments */
+  justify-content: flex-end; /* Aligne les éléments à droite */
+  gap: 1.2rem;
+  
 }
 
 .header-right a:hover {
@@ -76,6 +83,7 @@
   .header-title {
     text-align: center;
     padding: 1rem 0;
+    flex: 1 1 auto;
   }
 
   .header-right ul {
@@ -83,4 +91,32 @@
     align-items: center;
     gap: 0.8rem;
   }
+}
+
+.header-right ul {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.username-display {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.logout-button {
+  background-color: transparent;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #dc3545;
+  color: white;
 }

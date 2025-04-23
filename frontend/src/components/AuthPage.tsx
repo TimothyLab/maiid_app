@@ -23,7 +23,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
         setError('');
         setLoading(true);
 
-        const url = isLogin ? "/auth/login/" : "/auth/register/";
+        const url = isLogin ? "/auth/login" : "/auth/register";
         const payload = { username, password,nom,prenom, email};
         console.warn(url)
         try {
@@ -41,6 +41,8 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
             if (response.ok) {
                 if (isLogin) {
                     localStorage.setItem("token", data.access_token);
+                    localStorage.setItem("username", username);
+                    console.log(username);
                     navigate("/analyse"); // Redirection après connexion
                 } else {
                     alert("Inscription réussie !");
@@ -59,6 +61,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ isLogin }) => {
 
     return (
         <div className="auth-container">
+            <img src="/logo_MASCARA.jpg" alt="Logo de l'application" className="auth-logo" />
             <h1>{isLogin ? "Connexion" : "Inscription"}</h1>
             <input 
                 type="text" 

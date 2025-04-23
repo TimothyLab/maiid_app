@@ -26,7 +26,6 @@ class Analyse(Base):
     date_analyse = Column(String(255), nullable=False)
     algo_config = Column(String(255))
     user_feedback = Column(String(255))
-    created_at = Column(String(255), nullable=False)
     id_user = Column(Integer, ForeignKey("UTILISATEUR.id_user"), nullable=False)
     id_image = Column(Integer, ForeignKey("IMAGE.id_image"), nullable=False)
 

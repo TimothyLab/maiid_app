@@ -6,7 +6,6 @@ import DetectionCanvas from '../components/DetectionCanvas';
 import '../assets/Analyse.css'
 
 
-
 interface AnalyseProps {
     isLogin: boolean;
 }
@@ -15,6 +14,7 @@ const MAX_WIDTH = 800;
 const MAX_HEIGHT = 600;
 
 const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
+    const username = localStorage.getItem("username");
     const navigate = useNavigate();
     const [imageUrl, setImageUrl] = useState<string>(''); 
     const [selectedFile, setSelectedFile] = useState<File | null>(null); 
@@ -153,9 +153,9 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
         <div className="main-content-mosquito">
           <div className="mosquito-container">
             <header className="mosquito-header">
-                 {isLogin && <p className="user-status">Utilisateur connecté</p>}
+                {/*  {isLogin && <p className="user-status">Utilisateur connecté : {username} </p>}
                 {/* <button onClick={handleNavigate("/")} className="btn">Accueil</button> */}
-                <button onClick={handleLogout} className="btn btn-secondary">Se déconnecter</button>
+                {/* <button onClick={handleLogout} className="btn btn-secondary">Se déconnecter</button> */}
               
             </header>
       
@@ -168,9 +168,9 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
       
             <section className="mosquito-upload-section">
               <h2>TESTER LE SERVICE :</h2>
-              <p>Sélectionnez ou déposez une ou plusieurs image(s)</p>
+              <p>Sélectionnez ou déposez une image</p>
               <p>Fichiers autorisés : JPEG, PNG (max 5Mo)</p>
-              <p>Limitation : 5 requêtes par heure (version de démonstration)</p>
+              {/* <p>Limitation : 5 requêtes par heure (version de démonstration)</p> */}
               
             
               <input
@@ -188,14 +188,14 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
             </section>
       
             <section className="analysis-section">
-              <button
-                onClick={handleUpload}
-                className="analyze-button"
-                disabled={isLoading}
-              >
-                {isLoading ? "Chargement..." : "Analyser l'image"}
-              </button>
-              <button className="btn" onClick={handleNavigate("/admin/users")}>Liste des utilisateurs</button>
+                <button
+                    onClick={handleUpload}
+                    className={`analyze-button ${isLoading ? "loading" : ""}`}
+                    disabled={isLoading}
+                >
+                    {isLoading ? "Chargement..." : "Analyser l'image"}
+            </button>
+                <button className="btn" onClick={handleNavigate("/admin/users")}>Liste des utilisateurs</button>
             </section>
       
             {detections.length > 0 && (
@@ -212,14 +212,6 @@ const Analyse: React.FC<AnalyseProps> = ({ isLogin }) => {
                 </ul>
               </section>
             )}
-      
-            <footer>
-              <div className="footer-links">
-                <button onClick={handleNavigate("/about")} className="btn-footer">À propos</button>
-                <button onClick={handleNavigate("/legal")} className="btn-footer">Mentions légales</button>
-              </div>
-              <p>&copy; INRAE UMR EPIA 2023</p>
-            </footer>
           </div>
         </div>
       );

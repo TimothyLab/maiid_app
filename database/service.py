@@ -18,7 +18,6 @@ def create_analyse(db: Session, id_user: int, id_image: int):
     """
     analyse = Analyse(
         date_analyse=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         id_user=id_user,
         id_image=id_image
     )

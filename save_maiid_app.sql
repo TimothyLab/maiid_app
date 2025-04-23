@@ -30,7 +30,6 @@ CREATE TABLE `ANALYSE` (
   `date_analyse` datetime NOT NULL,
   `algo_config` text DEFAULT NULL,
   `user_feedback` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
   `id_user` int(11) NOT NULL,
   `id_image` int(11) NOT NULL,
   PRIMARY KEY (`id_analyse`),

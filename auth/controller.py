@@ -29,15 +29,16 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     
     return {"message": "Utilisateur créé avec succès", "user": new_user}
 
-@router.post("/login/")
+@router.post("/login")
 def login(user: UserCreate = Body(...), db: Session = Depends(get_db)):
     db_user = get_user(db, user.username)
+    print("results function db_user", user.username)
     if not db_user or not verify_password(user.password, db_user.password):
         raise HTTPException(status_code=401, detail="Identifiants incorrects")
     
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": db_user.login}, expires_delta=access_token_expires)
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer", "username ": user.username}
 
 
 @router.get("/admin/users", response_model=list[UserResponse])
