@@ -32,14 +32,14 @@ const Header: React.FC = () => {
             <div className="header-right">
                 <ul>
                     <li><Link to="/">ACCUEIL</Link></li>
-                    <li><Link to="/api">API</Link></li>
-                    <li><Link to="/inscription">INSCRIPTION</Link></li>
+                    <li><Link to="http://localhost:8000/docs">API</Link></li>
+                    {!isLogin && <li><Link to="/inscription">INSCRIPTION</Link></li>}
                     
                     {!isLogin ? (
                         <li><Link to="/login">CONNEXION</Link></li>
                     ) : (
                         <>
-                            <li className="username-display">👤 {username}</li>
+                            <li className="username-display"> 👤 {username}</li>
                             <li><button onClick={handleLogout} className="logout-button">Déconnexion</button></li>
                         </>
                     )}
