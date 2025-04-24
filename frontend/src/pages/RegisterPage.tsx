@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../assets/RegisterPage.css';
 
 interface RegisterPageProps {
     isLogin: boolean;
@@ -66,9 +67,10 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ isLogin }) => {
     };
 
     return (
-        <div className="auth-container">
-            <img src="/logo_MASCARA.jpg" alt="Logo de l'application" className="auth-logo" />
+        <div className="register-wrapper">
+            <img src="/logo_MASCARA.jpg" alt="Logo de l'application" className="register-logo" />
             <h1>{isLogin ? "Connexion" : "Inscription"}</h1>
+            
             <input 
                 type="text" 
                 placeholder="Nom d'utilisateur" 
@@ -81,35 +83,38 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ isLogin }) => {
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
             />
-            {!isLogin && ( //si islogin est faux: si on s'inscrit
+            
+            {!isLogin && (
                 <>
                     <input 
-                        type="Nom" 
+                        type="text" 
                         placeholder="Nom" 
                         value={nom} 
                         onChange={(e) => setNom(e.target.value)} 
                     />
                     <input 
-                        type="prenom" 
-                        placeholder="prenom" 
+                        type="text" 
+                        placeholder="Prénom" 
                         value={prenom} 
                         onChange={(e) => setPrenom(e.target.value)} 
                     />
                     <input 
-                        type="mail" 
-                        placeholder="email" 
+                        type="email" 
+                        placeholder="Email" 
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)} 
                     />
                 </>
             )}
-                  
-            <button onClick={handleAuth} disabled={loading} className='button-primary'>
+            
+            <button onClick={handleAuth} disabled={loading} className="button-primary">
                 {loading ? "Chargement..." : isLogin ? "Se connecter" : "S'inscrire"}
             </button>
+            
             {error && <p className="error-message">{error}</p>}
         </div>
     );
+    
 };
 
 export default RegisterPage;

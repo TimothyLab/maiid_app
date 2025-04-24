@@ -7,7 +7,7 @@ const LoginPage: React.FC = () => {
     const navigate = useNavigate();
 
     const goToRegister = () => {
-        navigate('/register/');
+        navigate('/register');
     };
 
     return (
