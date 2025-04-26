@@ -52,51 +52,51 @@ machine learning model and trained it on their data (images of mosquitoes and ot
 insects for classification). This will enable large-scale monitoring of mosquito species /
 genus populations that can be easily visualised by collectors.
 
-## Fonctionnalités Principales
+## Principal function
 
 A user can login to the application. After he can upload an image and analyze it and an picture with the indication (bouding box) of where the mosquitoe are will appear. Every results and user information are store in a database.
 
-## Prérequis / Installation
+## Prerequisites / Installation
 
-### Prérequis Techniques
+### Technical Prerequisites
 
 - **Python ≥ 3.12**
-- Outils nécessaires :
+- Required tools:s
   - `git`
-  - `pip` (ou `conda` pour les environnements virtuels)
+  - `pip` (or `conda` for virtual environments)
 
 ### Installation
 
-1. Clonez le dépôt Git :
+1. Clone the Git repository :
 
    ```
    https://github.com/TimothyLab/maiid_app.git
    cd maiid_app
    ```
-2. Créez un environnement virtuel avec Conda (optionnel mais recommandé) :
+2. Create a virtual environment with Conda (optional but recommended):
 
-   - Assurez-vous que Conda soit installé sur votre système :
+   - Ensure that Conda is installed on your system :
 
      ```bash
      conda --version
      ```
-   - Créez un environnement virtuel nommé **maiid** avec **python 3.12** :
+   - Create a virtual environment named **maiid** with **python 3.12** :
 
      ```bash
      conda create -n maiid python=3.12.0
      ```
-   - Activez l'environnement :
+   - Activate  the environment :
 
      ```bash
      conda activate maiid
      ```
-3. Installez les dépendances avec `requirements.txt` :
+3. Install the dependencies using `requirements.txt` :
 
 ```bash
    pip install -r requirements.txt
 ```
 
-4. Lancer l'application avec les commandes suivantes :
+4. Start the application with the following commands :
 
   - You have to connect the database : 
     - Create an admin acount and run mysql with it :
@@ -149,13 +149,13 @@ A user can login to the application. After he can upload an image and analyze it
 
 ## Support
 
-Pour toute question technique :
+Pour technical question :
 
 * Documentation Python et bibliothèques : [Python Package Index](https://pypi.org/).
 
 ## Auteurs
 
-Ce projet a été réalisé par :
+This project was carried out by :
 
 * **Gabriel Michaux**
 * **Timothy Labidi**
@@ -164,4 +164,4 @@ Promotion 2024-2025, Master 2 Bioinformatique, Université Claude Bernard Lyon 1
 
 ## Licence
 
-Licence ouverte à définir. Pour l'instant, ce projet est destiné à un usage académique.
+Open licence to be defined. For the moment, this project is intended for academic use.
