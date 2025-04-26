@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 DATABASE_URL = "mysql+mariadbconnector://admin:admin@localhost:3306/maiid_app" # mysql au lieu de mariadb pour Tim
 
 engine = create_engine(DATABASE_URL)
-print("connection database ok")
+#print("connection database ok")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 

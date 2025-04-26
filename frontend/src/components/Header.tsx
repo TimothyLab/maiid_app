@@ -28,9 +28,9 @@ const Header: React.FC = () => {
     
         window.addEventListener("storage", handleStorageChange);
     
-        /* return () => {
+        return () => {
             window.removeEventListener("storage", handleStorageChange);
-        }; */
+        }; 
     }, []);
 
 

@@ -80,6 +80,7 @@ def update_user(id: int, user_data: UserUpdate, current_user: User = Depends(get
 async def read_users_me(current_user: UserResponse = Depends(get_current_user)):
     return UserResponse.from_orm(current_user)
 
+
 # Fonction pour générer un token JWT
 @router.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):

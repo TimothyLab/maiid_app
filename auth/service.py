@@ -1,7 +1,6 @@
 #fonction
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
-from .models import UserResponse
 from database.models import User,Groupe
 from database.service import get_db
 from sqlalchemy.orm import Session
