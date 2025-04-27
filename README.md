@@ -153,7 +153,7 @@ Pour technical question :
 
 * Documentation Python et bibliothèques : [Python Package Index](https://pypi.org/).
 
-## Auteurs
+## Authors
 
 This project was carried out by :
 
