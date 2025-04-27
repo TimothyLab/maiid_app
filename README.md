@@ -1,4 +1,4 @@
-# Maiid project 
+# Maiid project
 
 ## Introduction
 
@@ -61,9 +61,18 @@ A user can login to the application. After he can upload an image and analyze it
 ### Technical Prerequisites
 
 - **Python ≥ 3.12**
-- Required tools:s
+- Required tools :
   - `git`
   - `pip` (or `conda` for virtual environments)
+
+
+## Important Notes
+
+- **System Compatibility**  : Please be mindful of your development machine: depending on your operating system (OS), the system packages required to connect to the MariaDB database via `DATABASE_URL` may differ. This project was developed primarily on **Linux** and **MacOS** machines.
+- **OpenCV Version**
+  Be careful with the `opencv-python` package version :
+  Version **4.11.0.86** is not stable across all operating systems.
+  It is recommended to use a more stable version, as specified in the [`requirements.txt`](./requirements.txt) file.
 
 ### Installation
 
@@ -98,54 +107,55 @@ A user can login to the application. After he can upload an image and analyze it
 
 4. Start the application with the following commands :
 
-  - You have to connect the database : 
-    - Create an admin acount and run mysql with it :
-      ```
-      mysql -u admin -p
-      ```
-  
-    - To link at database use :
-      ```sql
-      CREATE DATABASE maiid_app;
-      ```
+- You have to connect the database :
 
-    - Then exit mysql to load our database : 
-      ```bash
-      mysql -u admin -p maiid_app < save_maiid_app.sql
-      ```
+  - Create an admin acount and run mysql with it :
 
-    - Then you have to use the database :
-  
-      ```sql
-      USE maiid_app;
-      ```
+    ```
+    mysql -u admin -p
+    ```
+  - To link at database use :
 
-    - If you do some modification on the content of the database you can save this by this command :
-  
-      ```bash
-      mysqldump -u admin -p maiid_app > save_maiid_app.sql
-      ```
-      
+    ```sql
+    CREATE DATABASE maiid_app;
+    ```
+  - Then exit mysql to load our database :
+
+    ```bash
+    mysql -u admin -p maiid_app < save_maiid_app.sql
+    ```
+  - Then you have to use the database :
+
+    ```sql
+    USE maiid_app;
+    ```
+  - If you do some modification on the content of the database you can save this by this command :
+
+    ```bash
+    mysqldump -u admin -p maiid_app > save_maiid_app.sql
+    ```
 - Then to run the application you have to run main.py to run the API :
+
   ```
   uvicorn main:app --reload
   ```
+- Then you can :
 
-- Then you can : 
-    - run web page developpement (server) in the frontend folder:
+  - run web page developpement (server) in the frontend folder:
+
   ```
   cd frontend
   npm start
   ```
 
-    - Or run production build server web application : 
-    
-    ```
-    cd frontend
-    npm run build
-    ```
-    If you choose this option you juste have run the main.py file after you put the build repository created at the root of the project.
+  - Or run production build server web application :
 
+  ```
+  cd frontend
+  npm run build
+  ```
+
+  If you choose this option you juste have run the main.py file after you put the build repository created at the root of the project.
 
 ## Support
 
