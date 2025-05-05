@@ -157,11 +157,11 @@ A user can login to the application. After he can upload an image and analyze it
   npm run build
   ```
 
-  If you choose this option, you just have run the [`main.py`](main.py) file after you put the build repository created at the root of the project.
+  If you choose this option, you just have run the [`main.py`](main.py) file (after putting the build repository created at the root of the project).
 
 ## Support
 
-Pour technical question :
+For technical questions / informations :
 
 * Documentation Python et bibliothèques : [Python Package Index](https://pypi.org/).
 
@@ -173,6 +173,11 @@ This project was carried out by :
 * **Timothy Labidi**
 
 Promotion 2024-2025, Master 2 Bioinformatique, Université Claude Bernard Lyon 1.
+
+## Project Owners
+
+* **Vincent Raquin**
+* **Jocelyn De Goër**
 
 ## Licence
 
