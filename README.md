@@ -176,8 +176,10 @@ Promotion 2024-2025, Master 2 Bioinformatique, Université Claude Bernard Lyon 1
 
 ## Project Owners
 
-* **Vincent Raquin**
-* **Jocelyn De Goër**
+* **Vincent Raquin** : Assistant Professor EPHE-PSL, Infections Virales et Pathologie
+Comparée - UMR 754 [IVPC]
+* **Jocelyn De Goër** : Research engineer at the "Epidémiologie des maladies animales
+et zoonotiques" unit (EPIA), INRAE Clermont-Auvergne-Rhône-Alpes
 
 ## Licence
 
