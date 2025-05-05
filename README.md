@@ -174,6 +174,10 @@ This project was carried out by :
 
 Promotion 2024-2025, Master 2 Bioinformatique, Université Claude Bernard Lyon 1.
 
+## DeepLearning Image Analysis Model : YOLOv8 
+
+We use a pre-trained YOLOv8 model for automatic mosquito identication on images. The weights of trained model were given by **Jocelyn De Goër**. For more information about training work, please contact him. 
+
 ## Project Owners
 
 * **Vincent Raquin** : Assistant Professor EPHE-PSL, Infections Virales et Pathologie
