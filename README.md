@@ -68,7 +68,9 @@ A user can login to the application. After he can upload an image and analyze it
 
 ## Important Notes
 
-- **System Compatibility**  : Please be mindful of your development machine: depending on your operating system (OS), the system packages required to connect to the MariaDB database via `DATABASE_URL` may differ. This project was developed primarily on **Linux** and **MacOS** machines.
+- **System Compatibility**  : Please be mindful of your development machine: depending on your operating system (OS), the system packages required to connect to the MariaDB database via `DATABASE_URL` may differ. This project was developed primarily on **Linux** and **MacOS** machines. Once you have defined the package that will serve as your database connector, modify the `DATABASE_URL` in the [`/database/core.py`](.//database/core.py) file. Besides, keep in mind your personal / local database profil and specifies it in  `DATABASE_URL`.
+
+  
 - **OpenCV Version**
   Be careful with the `opencv-python` package version :
   Version **4.11.0.86** is not stable across all operating systems.
@@ -134,7 +136,7 @@ A user can login to the application. After he can upload an image and analyze it
     ```bash
     mysqldump -u admin -p maiid_app > save_maiid_app.sql
     ```
-- Then to run the application you have to run main.py to run the API :
+- Then to run the application you have to run [`main.py`](main.py) to run the API :
 
   ```
   uvicorn main:app --reload
@@ -155,7 +157,7 @@ A user can login to the application. After he can upload an image and analyze it
   npm run build
   ```
 
-  If you choose this option you juste have run the main.py file after you put the build repository created at the root of the project.
+  If you choose this option, you just have run the [`main.py`](main.py) file after you put the build repository created at the root of the project.
 
 ## Support
 
