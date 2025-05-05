@@ -64,6 +64,7 @@ A user can login to the application. After he can upload an image and analyze it
 - Required tools :
   - `git`
   - `pip` (or `conda` for virtual environments)
+
 ### Functional Prerequisites
 
 - weights folder at the root or the project.
